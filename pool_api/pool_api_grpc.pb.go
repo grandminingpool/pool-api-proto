@@ -4,7 +4,7 @@
 // - protoc             v5.26.1
 // source: pool_api.proto
 
-package poolApi
+package poolAPIProto
 
 import (
 	context "context"
@@ -38,7 +38,7 @@ func NewPoolServiceClient(cc grpc.ClientConnInterface) PoolServiceClient {
 
 func (c *poolServiceClient) GetPoolInfo(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PoolInfo, error) {
 	out := new(PoolInfo)
-	err := c.cc.Invoke(ctx, "/poolApi.PoolService/GetPoolInfo", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/poolAPI.PoolService/GetPoolInfo", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -47,7 +47,7 @@ func (c *poolServiceClient) GetPoolInfo(ctx context.Context, in *emptypb.Empty, 
 
 func (c *poolServiceClient) GetPoolSlaves(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PoolSlaves, error) {
 	out := new(PoolSlaves)
-	err := c.cc.Invoke(ctx, "/poolApi.PoolService/GetPoolSlaves", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/poolAPI.PoolService/GetPoolSlaves", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func (c *poolServiceClient) GetPoolSlaves(ctx context.Context, in *emptypb.Empty
 
 func (c *poolServiceClient) GetPoolStats(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PoolStats, error) {
 	out := new(PoolStats)
-	err := c.cc.Invoke(ctx, "/poolApi.PoolService/GetPoolStats", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/poolAPI.PoolService/GetPoolStats", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -109,7 +109,7 @@ func _PoolService_GetPoolInfo_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/poolApi.PoolService/GetPoolInfo",
+		FullMethod: "/poolAPI.PoolService/GetPoolInfo",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PoolServiceServer).GetPoolInfo(ctx, req.(*emptypb.Empty))
@@ -127,7 +127,7 @@ func _PoolService_GetPoolSlaves_Handler(srv interface{}, ctx context.Context, de
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/poolApi.PoolService/GetPoolSlaves",
+		FullMethod: "/poolAPI.PoolService/GetPoolSlaves",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PoolServiceServer).GetPoolSlaves(ctx, req.(*emptypb.Empty))
@@ -145,7 +145,7 @@ func _PoolService_GetPoolStats_Handler(srv interface{}, ctx context.Context, dec
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/poolApi.PoolService/GetPoolStats",
+		FullMethod: "/poolAPI.PoolService/GetPoolStats",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PoolServiceServer).GetPoolStats(ctx, req.(*emptypb.Empty))
@@ -157,7 +157,7 @@ func _PoolService_GetPoolStats_Handler(srv interface{}, ctx context.Context, dec
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var PoolService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "poolApi.PoolService",
+	ServiceName: "poolAPI.PoolService",
 	HandlerType: (*PoolServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -196,7 +196,7 @@ func NewPoolMinersServiceClient(cc grpc.ClientConnInterface) PoolMinersServiceCl
 
 func (c *poolMinersServiceClient) ValidateAddress(ctx context.Context, in *MinerAddressRequest, opts ...grpc.CallOption) (*ValidateAddressResponse, error) {
 	out := new(ValidateAddressResponse)
-	err := c.cc.Invoke(ctx, "/poolApi.PoolMinersService/ValidateAddress", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/poolAPI.PoolMinersService/ValidateAddress", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -205,7 +205,7 @@ func (c *poolMinersServiceClient) ValidateAddress(ctx context.Context, in *Miner
 
 func (c *poolMinersServiceClient) GetMinerWorkers(ctx context.Context, in *MinerAddressRequest, opts ...grpc.CallOption) (*MinerWorkers, error) {
 	out := new(MinerWorkers)
-	err := c.cc.Invoke(ctx, "/poolApi.PoolMinersService/GetMinerWorkers", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/poolAPI.PoolMinersService/GetMinerWorkers", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -214,7 +214,7 @@ func (c *poolMinersServiceClient) GetMinerWorkers(ctx context.Context, in *Miner
 
 func (c *poolMinersServiceClient) GetWorkers(ctx context.Context, in *MinerAddressesRequest, opts ...grpc.CallOption) (*MinersWorkers, error) {
 	out := new(MinersWorkers)
-	err := c.cc.Invoke(ctx, "/poolApi.PoolMinersService/GetWorkers", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/poolAPI.PoolMinersService/GetWorkers", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -267,7 +267,7 @@ func _PoolMinersService_ValidateAddress_Handler(srv interface{}, ctx context.Con
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/poolApi.PoolMinersService/ValidateAddress",
+		FullMethod: "/poolAPI.PoolMinersService/ValidateAddress",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PoolMinersServiceServer).ValidateAddress(ctx, req.(*MinerAddressRequest))
@@ -285,7 +285,7 @@ func _PoolMinersService_GetMinerWorkers_Handler(srv interface{}, ctx context.Con
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/poolApi.PoolMinersService/GetMinerWorkers",
+		FullMethod: "/poolAPI.PoolMinersService/GetMinerWorkers",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PoolMinersServiceServer).GetMinerWorkers(ctx, req.(*MinerAddressRequest))
@@ -303,7 +303,7 @@ func _PoolMinersService_GetWorkers_Handler(srv interface{}, ctx context.Context,
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/poolApi.PoolMinersService/GetWorkers",
+		FullMethod: "/poolAPI.PoolMinersService/GetWorkers",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PoolMinersServiceServer).GetWorkers(ctx, req.(*MinerAddressesRequest))
@@ -315,7 +315,7 @@ func _PoolMinersService_GetWorkers_Handler(srv interface{}, ctx context.Context,
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var PoolMinersService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "poolApi.PoolMinersService",
+	ServiceName: "poolAPI.PoolMinersService",
 	HandlerType: (*PoolMinersServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -355,7 +355,7 @@ func NewPoolPayoutsServiceClient(cc grpc.ClientConnInterface) PoolPayoutsService
 
 func (c *poolPayoutsServiceClient) GetMinerBalance(ctx context.Context, in *MinerAddressRequest, opts ...grpc.CallOption) (*MinerBalance, error) {
 	out := new(MinerBalance)
-	err := c.cc.Invoke(ctx, "/poolApi.PoolPayoutsService/GetMinerBalance", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/poolAPI.PoolPayoutsService/GetMinerBalance", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -364,7 +364,7 @@ func (c *poolPayoutsServiceClient) GetMinerBalance(ctx context.Context, in *Mine
 
 func (c *poolPayoutsServiceClient) GetBalances(ctx context.Context, in *MinerAddressesRequest, opts ...grpc.CallOption) (*MinersBalances, error) {
 	out := new(MinersBalances)
-	err := c.cc.Invoke(ctx, "/poolApi.PoolPayoutsService/GetBalances", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/poolAPI.PoolPayoutsService/GetBalances", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -373,7 +373,7 @@ func (c *poolPayoutsServiceClient) GetBalances(ctx context.Context, in *MinerAdd
 
 func (c *poolPayoutsServiceClient) GetMinerPayouts(ctx context.Context, in *MinerPayoutsRequest, opts ...grpc.CallOption) (*MinerPayouts, error) {
 	out := new(MinerPayouts)
-	err := c.cc.Invoke(ctx, "/poolApi.PoolPayoutsService/GetMinerPayouts", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/poolAPI.PoolPayoutsService/GetMinerPayouts", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -382,7 +382,7 @@ func (c *poolPayoutsServiceClient) GetMinerPayouts(ctx context.Context, in *Mine
 
 func (c *poolPayoutsServiceClient) GetMinersPayouts(ctx context.Context, in *MinersPayoutsRequest, opts ...grpc.CallOption) (*MinersPayouts, error) {
 	out := new(MinersPayouts)
-	err := c.cc.Invoke(ctx, "/poolApi.PoolPayoutsService/GetMinersPayouts", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/poolAPI.PoolPayoutsService/GetMinersPayouts", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -439,7 +439,7 @@ func _PoolPayoutsService_GetMinerBalance_Handler(srv interface{}, ctx context.Co
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/poolApi.PoolPayoutsService/GetMinerBalance",
+		FullMethod: "/poolAPI.PoolPayoutsService/GetMinerBalance",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PoolPayoutsServiceServer).GetMinerBalance(ctx, req.(*MinerAddressRequest))
@@ -457,7 +457,7 @@ func _PoolPayoutsService_GetBalances_Handler(srv interface{}, ctx context.Contex
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/poolApi.PoolPayoutsService/GetBalances",
+		FullMethod: "/poolAPI.PoolPayoutsService/GetBalances",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PoolPayoutsServiceServer).GetBalances(ctx, req.(*MinerAddressesRequest))
@@ -475,7 +475,7 @@ func _PoolPayoutsService_GetMinerPayouts_Handler(srv interface{}, ctx context.Co
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/poolApi.PoolPayoutsService/GetMinerPayouts",
+		FullMethod: "/poolAPI.PoolPayoutsService/GetMinerPayouts",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PoolPayoutsServiceServer).GetMinerPayouts(ctx, req.(*MinerPayoutsRequest))
@@ -493,7 +493,7 @@ func _PoolPayoutsService_GetMinersPayouts_Handler(srv interface{}, ctx context.C
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/poolApi.PoolPayoutsService/GetMinersPayouts",
+		FullMethod: "/poolAPI.PoolPayoutsService/GetMinersPayouts",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PoolPayoutsServiceServer).GetMinersPayouts(ctx, req.(*MinersPayoutsRequest))
@@ -505,7 +505,7 @@ func _PoolPayoutsService_GetMinersPayouts_Handler(srv interface{}, ctx context.C
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var PoolPayoutsService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "poolApi.PoolPayoutsService",
+	ServiceName: "poolAPI.PoolPayoutsService",
 	HandlerType: (*PoolPayoutsServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
