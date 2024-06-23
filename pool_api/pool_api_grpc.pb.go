@@ -176,3 +176,355 @@ var PoolService_ServiceDesc = grpc.ServiceDesc{
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "pool_api.proto",
 }
+
+// PoolMinersServiceClient is the client API for PoolMinersService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type PoolMinersServiceClient interface {
+	ValidateAddress(ctx context.Context, in *MinerAddressRequest, opts ...grpc.CallOption) (*ValidateAddressResponse, error)
+	GetMinerWorkers(ctx context.Context, in *MinerAddressRequest, opts ...grpc.CallOption) (*MinerWorkers, error)
+	GetWorkers(ctx context.Context, in *MinerAddressesRequest, opts ...grpc.CallOption) (*MinersWorkers, error)
+}
+
+type poolMinersServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewPoolMinersServiceClient(cc grpc.ClientConnInterface) PoolMinersServiceClient {
+	return &poolMinersServiceClient{cc}
+}
+
+func (c *poolMinersServiceClient) ValidateAddress(ctx context.Context, in *MinerAddressRequest, opts ...grpc.CallOption) (*ValidateAddressResponse, error) {
+	out := new(ValidateAddressResponse)
+	err := c.cc.Invoke(ctx, "/poolApi.PoolMinersService/ValidateAddress", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *poolMinersServiceClient) GetMinerWorkers(ctx context.Context, in *MinerAddressRequest, opts ...grpc.CallOption) (*MinerWorkers, error) {
+	out := new(MinerWorkers)
+	err := c.cc.Invoke(ctx, "/poolApi.PoolMinersService/GetMinerWorkers", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *poolMinersServiceClient) GetWorkers(ctx context.Context, in *MinerAddressesRequest, opts ...grpc.CallOption) (*MinersWorkers, error) {
+	out := new(MinersWorkers)
+	err := c.cc.Invoke(ctx, "/poolApi.PoolMinersService/GetWorkers", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// PoolMinersServiceServer is the server API for PoolMinersService service.
+// All implementations must embed UnimplementedPoolMinersServiceServer
+// for forward compatibility
+type PoolMinersServiceServer interface {
+	ValidateAddress(context.Context, *MinerAddressRequest) (*ValidateAddressResponse, error)
+	GetMinerWorkers(context.Context, *MinerAddressRequest) (*MinerWorkers, error)
+	GetWorkers(context.Context, *MinerAddressesRequest) (*MinersWorkers, error)
+	mustEmbedUnimplementedPoolMinersServiceServer()
+}
+
+// UnimplementedPoolMinersServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedPoolMinersServiceServer struct {
+}
+
+func (UnimplementedPoolMinersServiceServer) ValidateAddress(context.Context, *MinerAddressRequest) (*ValidateAddressResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ValidateAddress not implemented")
+}
+func (UnimplementedPoolMinersServiceServer) GetMinerWorkers(context.Context, *MinerAddressRequest) (*MinerWorkers, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMinerWorkers not implemented")
+}
+func (UnimplementedPoolMinersServiceServer) GetWorkers(context.Context, *MinerAddressesRequest) (*MinersWorkers, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetWorkers not implemented")
+}
+func (UnimplementedPoolMinersServiceServer) mustEmbedUnimplementedPoolMinersServiceServer() {}
+
+// UnsafePoolMinersServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to PoolMinersServiceServer will
+// result in compilation errors.
+type UnsafePoolMinersServiceServer interface {
+	mustEmbedUnimplementedPoolMinersServiceServer()
+}
+
+func RegisterPoolMinersServiceServer(s grpc.ServiceRegistrar, srv PoolMinersServiceServer) {
+	s.RegisterService(&PoolMinersService_ServiceDesc, srv)
+}
+
+func _PoolMinersService_ValidateAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MinerAddressRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PoolMinersServiceServer).ValidateAddress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/poolApi.PoolMinersService/ValidateAddress",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PoolMinersServiceServer).ValidateAddress(ctx, req.(*MinerAddressRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PoolMinersService_GetMinerWorkers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MinerAddressRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PoolMinersServiceServer).GetMinerWorkers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/poolApi.PoolMinersService/GetMinerWorkers",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PoolMinersServiceServer).GetMinerWorkers(ctx, req.(*MinerAddressRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PoolMinersService_GetWorkers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MinerAddressesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PoolMinersServiceServer).GetWorkers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/poolApi.PoolMinersService/GetWorkers",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PoolMinersServiceServer).GetWorkers(ctx, req.(*MinerAddressesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// PoolMinersService_ServiceDesc is the grpc.ServiceDesc for PoolMinersService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var PoolMinersService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "poolApi.PoolMinersService",
+	HandlerType: (*PoolMinersServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "ValidateAddress",
+			Handler:    _PoolMinersService_ValidateAddress_Handler,
+		},
+		{
+			MethodName: "GetMinerWorkers",
+			Handler:    _PoolMinersService_GetMinerWorkers_Handler,
+		},
+		{
+			MethodName: "GetWorkers",
+			Handler:    _PoolMinersService_GetWorkers_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "pool_api.proto",
+}
+
+// PoolPayoutsServiceClient is the client API for PoolPayoutsService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type PoolPayoutsServiceClient interface {
+	GetMinerBalance(ctx context.Context, in *MinerAddressRequest, opts ...grpc.CallOption) (*MinerBalance, error)
+	GetBalances(ctx context.Context, in *MinerAddressesRequest, opts ...grpc.CallOption) (*MinersBalances, error)
+	GetMinerPayouts(ctx context.Context, in *MinerPayoutsRequest, opts ...grpc.CallOption) (*MinerPayouts, error)
+	GetMinersPayouts(ctx context.Context, in *MinersPayoutsRequest, opts ...grpc.CallOption) (*MinersPayouts, error)
+}
+
+type poolPayoutsServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewPoolPayoutsServiceClient(cc grpc.ClientConnInterface) PoolPayoutsServiceClient {
+	return &poolPayoutsServiceClient{cc}
+}
+
+func (c *poolPayoutsServiceClient) GetMinerBalance(ctx context.Context, in *MinerAddressRequest, opts ...grpc.CallOption) (*MinerBalance, error) {
+	out := new(MinerBalance)
+	err := c.cc.Invoke(ctx, "/poolApi.PoolPayoutsService/GetMinerBalance", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *poolPayoutsServiceClient) GetBalances(ctx context.Context, in *MinerAddressesRequest, opts ...grpc.CallOption) (*MinersBalances, error) {
+	out := new(MinersBalances)
+	err := c.cc.Invoke(ctx, "/poolApi.PoolPayoutsService/GetBalances", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *poolPayoutsServiceClient) GetMinerPayouts(ctx context.Context, in *MinerPayoutsRequest, opts ...grpc.CallOption) (*MinerPayouts, error) {
+	out := new(MinerPayouts)
+	err := c.cc.Invoke(ctx, "/poolApi.PoolPayoutsService/GetMinerPayouts", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *poolPayoutsServiceClient) GetMinersPayouts(ctx context.Context, in *MinersPayoutsRequest, opts ...grpc.CallOption) (*MinersPayouts, error) {
+	out := new(MinersPayouts)
+	err := c.cc.Invoke(ctx, "/poolApi.PoolPayoutsService/GetMinersPayouts", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// PoolPayoutsServiceServer is the server API for PoolPayoutsService service.
+// All implementations must embed UnimplementedPoolPayoutsServiceServer
+// for forward compatibility
+type PoolPayoutsServiceServer interface {
+	GetMinerBalance(context.Context, *MinerAddressRequest) (*MinerBalance, error)
+	GetBalances(context.Context, *MinerAddressesRequest) (*MinersBalances, error)
+	GetMinerPayouts(context.Context, *MinerPayoutsRequest) (*MinerPayouts, error)
+	GetMinersPayouts(context.Context, *MinersPayoutsRequest) (*MinersPayouts, error)
+	mustEmbedUnimplementedPoolPayoutsServiceServer()
+}
+
+// UnimplementedPoolPayoutsServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedPoolPayoutsServiceServer struct {
+}
+
+func (UnimplementedPoolPayoutsServiceServer) GetMinerBalance(context.Context, *MinerAddressRequest) (*MinerBalance, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMinerBalance not implemented")
+}
+func (UnimplementedPoolPayoutsServiceServer) GetBalances(context.Context, *MinerAddressesRequest) (*MinersBalances, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBalances not implemented")
+}
+func (UnimplementedPoolPayoutsServiceServer) GetMinerPayouts(context.Context, *MinerPayoutsRequest) (*MinerPayouts, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMinerPayouts not implemented")
+}
+func (UnimplementedPoolPayoutsServiceServer) GetMinersPayouts(context.Context, *MinersPayoutsRequest) (*MinersPayouts, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMinersPayouts not implemented")
+}
+func (UnimplementedPoolPayoutsServiceServer) mustEmbedUnimplementedPoolPayoutsServiceServer() {}
+
+// UnsafePoolPayoutsServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to PoolPayoutsServiceServer will
+// result in compilation errors.
+type UnsafePoolPayoutsServiceServer interface {
+	mustEmbedUnimplementedPoolPayoutsServiceServer()
+}
+
+func RegisterPoolPayoutsServiceServer(s grpc.ServiceRegistrar, srv PoolPayoutsServiceServer) {
+	s.RegisterService(&PoolPayoutsService_ServiceDesc, srv)
+}
+
+func _PoolPayoutsService_GetMinerBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MinerAddressRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PoolPayoutsServiceServer).GetMinerBalance(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/poolApi.PoolPayoutsService/GetMinerBalance",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PoolPayoutsServiceServer).GetMinerBalance(ctx, req.(*MinerAddressRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PoolPayoutsService_GetBalances_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MinerAddressesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PoolPayoutsServiceServer).GetBalances(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/poolApi.PoolPayoutsService/GetBalances",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PoolPayoutsServiceServer).GetBalances(ctx, req.(*MinerAddressesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PoolPayoutsService_GetMinerPayouts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MinerPayoutsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PoolPayoutsServiceServer).GetMinerPayouts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/poolApi.PoolPayoutsService/GetMinerPayouts",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PoolPayoutsServiceServer).GetMinerPayouts(ctx, req.(*MinerPayoutsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PoolPayoutsService_GetMinersPayouts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MinersPayoutsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PoolPayoutsServiceServer).GetMinersPayouts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/poolApi.PoolPayoutsService/GetMinersPayouts",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PoolPayoutsServiceServer).GetMinersPayouts(ctx, req.(*MinersPayoutsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// PoolPayoutsService_ServiceDesc is the grpc.ServiceDesc for PoolPayoutsService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var PoolPayoutsService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "poolApi.PoolPayoutsService",
+	HandlerType: (*PoolPayoutsServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetMinerBalance",
+			Handler:    _PoolPayoutsService_GetMinerBalance_Handler,
+		},
+		{
+			MethodName: "GetBalances",
+			Handler:    _PoolPayoutsService_GetBalances_Handler,
+		},
+		{
+			MethodName: "GetMinerPayouts",
+			Handler:    _PoolPayoutsService_GetMinerPayouts_Handler,
+		},
+		{
+			MethodName: "GetMinersPayouts",
+			Handler:    _PoolPayoutsService_GetMinersPayouts_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "pool_api.proto",
+}

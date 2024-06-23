@@ -25,10 +25,10 @@ message PoolFee {
 
 message PoolSlave {
     string region = 1;
-    google.protobuf.Timestamp connected_at = 2;
-    int32 tcp_port = 3;
-    int32 ssl_port = 4;
-    optional int32 solo_port = 5;
+    int32 tcp_port = 2;
+    int32 ssl_port = 3;
+    optional int32 solo_port = 4;
+    google.protobuf.Timestamp connected_at = 5;
 }
 
 message PoolInfo {
@@ -50,14 +50,87 @@ message PoolStats {
     int32 solo_miners_count = 2;
     bytes hashrate = 3;
     bytes avg_hashrate = 4;
-    bytes solo_hashrate = 5;
-    bytes solo_avg_hashrate = 6;
+    optional bytes solo_hashrate = 5;
+    optional bytes solo_avg_hashrate = 6;
     uint64 share_difficulty = 7;
-    uint64 solo_share_difficulty = 8;
+    optional uint64 solo_share_difficulty = 8;
+}
+
+message MinerAddressRequest {
+    string address = 1;
+}
+
+message MinerAddressesRequest {
+    repeated string addresses = 1;
+}
+
+message ValidateAddressResponse {
+    bool valid = 1;
+}
+
+message MinerWorker {
+    string worker = 1;
+    string slave_region = 2;
+    bool solo = 3;
+    bytes hashrate = 4;
+    google.protobuf.Timestamp connected_at = 5;
+}
+
+message MinerWorkers {
+    repeated MinerWorker workers = 1;
+}
+
+message MinersWorkers {
+    map<string, MinerWorkers> workers = 1;
+}
+
+message MinerBalance {
+    uint64 balance = 1;
+}
+
+message MinersBalances {
+    map<string, MinerBalance> balances = 1;
+}
+
+message MinerPayoutsRequest {
+    string address = 1;
+    google.protobuf.Timestamp paid_from = 2;
+}
+
+message MinersPayoutsRequest {
+    repeated string addresses = 1;
+    google.protobuf.Timestamp paid_from = 2;
+}
+
+message MinerPayout {
+    string tx_hash = 1;
+    uint64 amount = 2;
+    google.protobuf.Timestamp paid_at = 3;
+}
+
+message MinerPayouts {
+    repeated MinerPayout payouts = 1;
+}
+
+message MinersPayouts {
+    map<string, MinerPayout> payouts = 1;
 }
 
 service PoolService {
     rpc GetPoolInfo(google.protobuf.Empty) returns (PoolInfo);
     rpc GetPoolSlaves(google.protobuf.Empty) returns (PoolSlaves);
     rpc GetPoolStats(google.protobuf.Empty) returns (PoolStats);
+}
+
+service PoolMinersService {
+    rpc ValidateAddress(MinerAddressRequest) returns (ValidateAddressResponse);
+    rpc GetMinerWorkers(MinerAddressRequest) returns (MinerWorkers);
+    rpc GetWorkers(MinerAddressesRequest) returns (MinersWorkers);
+}
+
+service PoolPayoutsService {
+    rpc GetMinerBalance(MinerAddressRequest) returns (MinerBalance);
+    rpc GetBalances(MinerAddressesRequest) returns (MinersBalances);
+    rpc GetMinerPayouts(MinerPayoutsRequest) returns (MinerPayouts);
+    rpc GetMinersPayouts(MinersPayoutsRequest) returns (MinersPayouts);
 }
