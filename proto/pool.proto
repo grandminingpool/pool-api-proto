@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package pool;
+
+option go_package = "github.com/grandminingpool/pool-api-proto/generated/pool;poolProto";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+enum PayoutMode {
+    PPLNS = 0;
+    PROP = 1;
+}
+
+message PayoutInfo {
+    int32 payout_interval = 1;
+    optional uint64 min_payout = 2;
+    optional uint64 max_payout = 3;
+}
+
+message PoolFee {
+    float fee = 1;
+    optional float solo_fee = 2;
+}
+
+message PoolSlave {
+    string region = 1;
+    int32 tcp_port = 2;
+    int32 ssl_port = 3;
+    optional int32 solo_port = 4;
+    google.protobuf.Timestamp connected_at = 5;
+}
+
+message PoolInfo {
+    string blockchain = 1;
+    repeated string algos = 2;
+    PayoutMode payout_mode = 3;
+    bool solo = 4;
+    PoolFee fee = 5;
+    PayoutInfo payout_info = 6;
+    repeated string agents = 7;
+}
+
+message PoolSlaves {
+    repeated PoolSlave slaves = 1;
+}
+
+message PoolStats {
+    int32 miners_count = 1;
+    int32 solo_miners_count = 2;
+    bytes hashrate = 3;
+    bytes avg_hashrate = 4;
+    optional bytes solo_hashrate = 5;
+    optional bytes solo_avg_hashrate = 6;
+    uint64 share_difficulty = 7;
+    optional uint64 solo_share_difficulty = 8;
+}
+
+service PoolService {
+    rpc GetPoolInfo(google.protobuf.Empty) returns (PoolInfo);
+    rpc GetPoolSlaves(google.protobuf.Empty) returns (PoolSlaves);
+    rpc GetPoolStats(google.protobuf.Empty) returns (PoolStats);
+}

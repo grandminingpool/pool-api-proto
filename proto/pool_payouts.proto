@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package pool_payouts;
+
+option go_package = "github.com/grandminingpool/pool-api-proto/generated/pool_payouts;poolPayoutsProto";
+
+import "google/protobuf/timestamp.proto";
+import "pool_miners.proto";
+
+message MinerBalance {
+    uint64 balance = 1;
+}
+
+message MinersBalances {
+    map<string, MinerBalance> balances = 1;
+}
+
+message MinerPayoutsRequest {
+    string address = 1;
+    google.protobuf.Timestamp paid_from = 2;
+}
+
+message MinersPayoutsRequest {
+    repeated string addresses = 1;
+    google.protobuf.Timestamp paid_from = 2;
+}
+
+message MinerPayout {
+    string tx_hash = 1;
+    uint64 amount = 2;
+    google.protobuf.Timestamp paid_at = 3;
+}
+
+message MinerPayouts {
+    repeated MinerPayout payouts = 1;
+}
+
+message MinersPayouts {
+    map<string, MinerPayout> payouts = 1;
+}
+
+service PoolPayoutsService {
+    rpc GetMinerBalance(pool_miners.MinerAddressRequest) returns (MinerBalance);
+    rpc GetBalances(pool_miners.MinerAddressesRequest) returns (MinersBalances);
+    rpc GetMinerPayouts(MinerPayoutsRequest) returns (MinerPayouts);
+    rpc GetMinersPayouts(MinersPayoutsRequest) returns (MinersPayouts);
+}

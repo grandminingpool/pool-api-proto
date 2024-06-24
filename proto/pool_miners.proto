@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package pool_miners;
+
+option go_package = "github.com/grandminingpool/pool-api-proto/generated/pool_miners;poolMinersProto";
+
+import "google/protobuf/timestamp.proto";
+
+message MinerAddressRequest {
+    string address = 1;
+}
+
+message MinerAddressesRequest {
+    repeated string addresses = 1;
+}
+
+message ValidateAddressResponse {
+    bool valid = 1;
+}
+
+message MinerWorker {
+    string worker = 1;
+    string slave_region = 2;
+    bool solo = 3;
+    bytes hashrate = 4;
+    google.protobuf.Timestamp connected_at = 5;
+}
+
+message MinerWorkers {
+    repeated MinerWorker workers = 1;
+}
+
+message MinersWorkers {
+    map<string, MinerWorkers> workers = 1;
+}
+
+service PoolMinersService {
+    rpc ValidateAddress(MinerAddressRequest) returns (ValidateAddressResponse);
+    rpc GetMinerWorkers(MinerAddressRequest) returns (MinerWorkers);
+    rpc GetWorkers(MinerAddressesRequest) returns (MinersWorkers);
+}
