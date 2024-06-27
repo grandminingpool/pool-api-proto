@@ -25,10 +25,11 @@ message PoolFee {
 
 message PoolSlave {
     string region = 1;
-    int32 tcp_port = 2;
-    int32 ssl_port = 3;
-    optional int32 solo_port = 4;
-    google.protobuf.Timestamp connected_at = 5;
+    string host = 2;
+    int32 tcp_port = 3;
+    int32 ssl_port = 4;
+    optional int32 solo_port = 5;
+    google.protobuf.Timestamp connected_at = 6;
 }
 
 message PoolInfo {
