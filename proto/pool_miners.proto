@@ -20,7 +20,7 @@ message ValidateAddressResponse {
 
 message MinerWorker {
     string worker = 1;
-    string slave_region = 2;
+    string region = 2;
     bool solo = 3;
     bytes hashrate = 4;
     google.protobuf.Timestamp connected_at = 5;
