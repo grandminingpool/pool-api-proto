@@ -36,7 +36,7 @@ message MinerPayouts {
 }
 
 message MinersPayouts {
-    map<string, MinerPayout> payouts = 1;
+    map<string, MinerPayouts> payouts = 1;
 }
 
 service PoolPayoutsService {
