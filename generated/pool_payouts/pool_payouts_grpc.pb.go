@@ -26,7 +26,7 @@ type PoolPayoutsServiceClient interface {
 	GetMinerBalance(ctx context.Context, in *pool_miners.MinerAddressRequest, opts ...grpc.CallOption) (*MinerBalance, error)
 	GetBalances(ctx context.Context, in *pool_miners.MinerAddressesRequest, opts ...grpc.CallOption) (*MinersBalances, error)
 	GetMinerPayouts(ctx context.Context, in *MinerPayoutsRequest, opts ...grpc.CallOption) (*MinerPayouts, error)
-	GetMinersPayouts(ctx context.Context, in *MinersPayoutsRequest, opts ...grpc.CallOption) (*MinersPayouts, error)
+	GetPayouts(ctx context.Context, in *MinersPayoutsRequest, opts ...grpc.CallOption) (*MinersPayouts, error)
 }
 
 type poolPayoutsServiceClient struct {
@@ -64,9 +64,9 @@ func (c *poolPayoutsServiceClient) GetMinerPayouts(ctx context.Context, in *Mine
 	return out, nil
 }
 
-func (c *poolPayoutsServiceClient) GetMinersPayouts(ctx context.Context, in *MinersPayoutsRequest, opts ...grpc.CallOption) (*MinersPayouts, error) {
+func (c *poolPayoutsServiceClient) GetPayouts(ctx context.Context, in *MinersPayoutsRequest, opts ...grpc.CallOption) (*MinersPayouts, error) {
 	out := new(MinersPayouts)
-	err := c.cc.Invoke(ctx, "/pool_payouts.PoolPayoutsService/GetMinersPayouts", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pool_payouts.PoolPayoutsService/GetPayouts", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -80,7 +80,7 @@ type PoolPayoutsServiceServer interface {
 	GetMinerBalance(context.Context, *pool_miners.MinerAddressRequest) (*MinerBalance, error)
 	GetBalances(context.Context, *pool_miners.MinerAddressesRequest) (*MinersBalances, error)
 	GetMinerPayouts(context.Context, *MinerPayoutsRequest) (*MinerPayouts, error)
-	GetMinersPayouts(context.Context, *MinersPayoutsRequest) (*MinersPayouts, error)
+	GetPayouts(context.Context, *MinersPayoutsRequest) (*MinersPayouts, error)
 	mustEmbedUnimplementedPoolPayoutsServiceServer()
 }
 
@@ -97,8 +97,8 @@ func (UnimplementedPoolPayoutsServiceServer) GetBalances(context.Context, *pool_
 func (UnimplementedPoolPayoutsServiceServer) GetMinerPayouts(context.Context, *MinerPayoutsRequest) (*MinerPayouts, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMinerPayouts not implemented")
 }
-func (UnimplementedPoolPayoutsServiceServer) GetMinersPayouts(context.Context, *MinersPayoutsRequest) (*MinersPayouts, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetMinersPayouts not implemented")
+func (UnimplementedPoolPayoutsServiceServer) GetPayouts(context.Context, *MinersPayoutsRequest) (*MinersPayouts, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPayouts not implemented")
 }
 func (UnimplementedPoolPayoutsServiceServer) mustEmbedUnimplementedPoolPayoutsServiceServer() {}
 
@@ -167,20 +167,20 @@ func _PoolPayoutsService_GetMinerPayouts_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PoolPayoutsService_GetMinersPayouts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PoolPayoutsService_GetPayouts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(MinersPayoutsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PoolPayoutsServiceServer).GetMinersPayouts(ctx, in)
+		return srv.(PoolPayoutsServiceServer).GetPayouts(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pool_payouts.PoolPayoutsService/GetMinersPayouts",
+		FullMethod: "/pool_payouts.PoolPayoutsService/GetPayouts",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PoolPayoutsServiceServer).GetMinersPayouts(ctx, req.(*MinersPayoutsRequest))
+		return srv.(PoolPayoutsServiceServer).GetPayouts(ctx, req.(*MinersPayoutsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -205,8 +205,8 @@ var PoolPayoutsService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _PoolPayoutsService_GetMinerPayouts_Handler,
 		},
 		{
-			MethodName: "GetMinersPayouts",
-			Handler:    _PoolPayoutsService_GetMinersPayouts_Handler,
+			MethodName: "GetPayouts",
+			Handler:    _PoolPayoutsService_GetPayouts_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

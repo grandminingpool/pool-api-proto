@@ -43,5 +43,5 @@ service PoolPayoutsService {
     rpc GetMinerBalance(pool_miners.MinerAddressRequest) returns (MinerBalance);
     rpc GetBalances(pool_miners.MinerAddressesRequest) returns (MinersBalances);
     rpc GetMinerPayouts(MinerPayoutsRequest) returns (MinerPayouts);
-    rpc GetMinersPayouts(MinersPayoutsRequest) returns (MinersPayouts);
+    rpc GetPayouts(MinersPayoutsRequest) returns (MinersPayouts);
 }
