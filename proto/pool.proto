@@ -19,8 +19,8 @@ message PayoutsInfo {
 }
 
 message PoolFee {
-    float fee = 1;
-    optional float solo_fee = 2;
+    double fee = 1;
+    optional double solo_fee = 2;
 }
 
 message PoolSlave {
