@@ -15,14 +15,19 @@ message MinersBalances {
     map<string, MinerBalance> balances = 1;
 }
 
+message MinersPayoutsFilters {
+    google.protobuf.Timestamp paid_from = 1;
+    bool solo = 2;
+}
+
 message MinerPayoutsRequest {
     string address = 1;
-    google.protobuf.Timestamp paid_from = 2;
+    MinersPayoutsFilters filters = 2;
 }
 
 message MinersPayoutsRequest {
     repeated string addresses = 1;
-    google.protobuf.Timestamp paid_from = 2;
+    MinersPayoutsFilters filters = 2;
 }
 
 message MinerPayout {
