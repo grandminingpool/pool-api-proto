@@ -27,6 +27,8 @@ type PoolPayoutsServiceClient interface {
 	GetBalances(ctx context.Context, in *pool_miners.MinerAddressesRequest, opts ...grpc.CallOption) (*MinersBalances, error)
 	GetMinerPayouts(ctx context.Context, in *MinerPayoutsRequest, opts ...grpc.CallOption) (*MinerPayouts, error)
 	GetPayouts(ctx context.Context, in *MinersPayoutsRequest, opts ...grpc.CallOption) (*MinersPayouts, error)
+	GetMinerSoloPayouts(ctx context.Context, in *MinerPayoutsRequest, opts ...grpc.CallOption) (*MinerSoloPayouts, error)
+	GetSoloPayouts(ctx context.Context, in *MinersPayoutsRequest, opts ...grpc.CallOption) (*MinersSoloPayouts, error)
 }
 
 type poolPayoutsServiceClient struct {
@@ -73,6 +75,24 @@ func (c *poolPayoutsServiceClient) GetPayouts(ctx context.Context, in *MinersPay
 	return out, nil
 }
 
+func (c *poolPayoutsServiceClient) GetMinerSoloPayouts(ctx context.Context, in *MinerPayoutsRequest, opts ...grpc.CallOption) (*MinerSoloPayouts, error) {
+	out := new(MinerSoloPayouts)
+	err := c.cc.Invoke(ctx, "/pool_payouts.PoolPayoutsService/GetMinerSoloPayouts", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *poolPayoutsServiceClient) GetSoloPayouts(ctx context.Context, in *MinersPayoutsRequest, opts ...grpc.CallOption) (*MinersSoloPayouts, error) {
+	out := new(MinersSoloPayouts)
+	err := c.cc.Invoke(ctx, "/pool_payouts.PoolPayoutsService/GetSoloPayouts", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PoolPayoutsServiceServer is the server API for PoolPayoutsService service.
 // All implementations must embed UnimplementedPoolPayoutsServiceServer
 // for forward compatibility
@@ -81,6 +101,8 @@ type PoolPayoutsServiceServer interface {
 	GetBalances(context.Context, *pool_miners.MinerAddressesRequest) (*MinersBalances, error)
 	GetMinerPayouts(context.Context, *MinerPayoutsRequest) (*MinerPayouts, error)
 	GetPayouts(context.Context, *MinersPayoutsRequest) (*MinersPayouts, error)
+	GetMinerSoloPayouts(context.Context, *MinerPayoutsRequest) (*MinerSoloPayouts, error)
+	GetSoloPayouts(context.Context, *MinersPayoutsRequest) (*MinersSoloPayouts, error)
 	mustEmbedUnimplementedPoolPayoutsServiceServer()
 }
 
@@ -99,6 +121,12 @@ func (UnimplementedPoolPayoutsServiceServer) GetMinerPayouts(context.Context, *M
 }
 func (UnimplementedPoolPayoutsServiceServer) GetPayouts(context.Context, *MinersPayoutsRequest) (*MinersPayouts, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPayouts not implemented")
+}
+func (UnimplementedPoolPayoutsServiceServer) GetMinerSoloPayouts(context.Context, *MinerPayoutsRequest) (*MinerSoloPayouts, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMinerSoloPayouts not implemented")
+}
+func (UnimplementedPoolPayoutsServiceServer) GetSoloPayouts(context.Context, *MinersPayoutsRequest) (*MinersSoloPayouts, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSoloPayouts not implemented")
 }
 func (UnimplementedPoolPayoutsServiceServer) mustEmbedUnimplementedPoolPayoutsServiceServer() {}
 
@@ -185,6 +213,42 @@ func _PoolPayoutsService_GetPayouts_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PoolPayoutsService_GetMinerSoloPayouts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MinerPayoutsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PoolPayoutsServiceServer).GetMinerSoloPayouts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pool_payouts.PoolPayoutsService/GetMinerSoloPayouts",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PoolPayoutsServiceServer).GetMinerSoloPayouts(ctx, req.(*MinerPayoutsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PoolPayoutsService_GetSoloPayouts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MinersPayoutsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PoolPayoutsServiceServer).GetSoloPayouts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pool_payouts.PoolPayoutsService/GetSoloPayouts",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PoolPayoutsServiceServer).GetSoloPayouts(ctx, req.(*MinersPayoutsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PoolPayoutsService_ServiceDesc is the grpc.ServiceDesc for PoolPayoutsService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -207,6 +271,14 @@ var PoolPayoutsService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetPayouts",
 			Handler:    _PoolPayoutsService_GetPayouts_Handler,
+		},
+		{
+			MethodName: "GetMinerSoloPayouts",
+			Handler:    _PoolPayoutsService_GetMinerSoloPayouts_Handler,
+		},
+		{
+			MethodName: "GetSoloPayouts",
+			Handler:    _PoolPayoutsService_GetSoloPayouts_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

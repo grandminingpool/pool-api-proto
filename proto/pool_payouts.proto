@@ -17,7 +17,6 @@ message MinersBalances {
 
 message MinersPayoutsFilters {
     google.protobuf.Timestamp paid_from = 1;
-    bool solo = 2;
 }
 
 message MinerPayoutsRequest {
@@ -36,6 +35,16 @@ message MinerPayout {
     google.protobuf.Timestamp paid_at = 3;
 }
 
+message MinerSoloPayout {
+    bytes miner_hashrate = 1;
+    string tx_hash = 2;
+    uint64 reward = 3;
+    string block_hash = 4;
+    uint64 block_reward  = 5;
+    uint64 share_difficulty  = 6;
+    google.protobuf.Timestamp paid_at = 7;
+}
+
 message MinerPayouts {
     repeated MinerPayout payouts = 1;
 }
@@ -44,9 +53,19 @@ message MinersPayouts {
     map<string, MinerPayouts> payouts = 1;
 }
 
+message MinerSoloPayouts {
+    repeated MinerSoloPayout payouts = 1;
+}
+
+message MinersSoloPayouts {
+    map<string, MinerSoloPayouts> payouts = 1;
+}
+
 service PoolPayoutsService {
     rpc GetMinerBalance(pool_miners.MinerAddressRequest) returns (MinerBalance);
     rpc GetBalances(pool_miners.MinerAddressesRequest) returns (MinersBalances);
     rpc GetMinerPayouts(MinerPayoutsRequest) returns (MinerPayouts);
     rpc GetPayouts(MinersPayoutsRequest) returns (MinersPayouts);
+    rpc GetMinerSoloPayouts(MinerPayoutsRequest) returns (MinerSoloPayouts);
+    rpc GetSoloPayouts(MinersPayoutsRequest) returns (MinersSoloPayouts);
 }
