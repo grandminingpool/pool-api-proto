@@ -34,12 +34,13 @@ message PoolSlave {
 
 message PoolInfo {
     string blockchain = 1;
-    repeated string algos = 2;
-    PayoutMode payout_mode = 3;
-    bool solo = 4;
-    PoolFee fee = 5;
-    PayoutsInfo payouts_info = 6;
-    repeated string agents = 7;
+    string host = 2;
+    repeated string algos = 3;
+    PayoutMode payout_mode = 4;
+    bool solo = 5;
+    PoolFee fee = 6;
+    PayoutsInfo payouts_info = 7;
+    repeated string agents = 8;
 }
 
 message PoolSlaves {
