@@ -49,7 +49,7 @@ message PoolSlaves {
 
 message PoolStats {
     int32 miners_count = 1;
-    int32 solo_miners_count = 2;
+    optional int32 solo_miners_count = 2;
     bytes hashrate = 3;
     bytes avg_hashrate = 4;
     optional bytes solo_hashrate = 5;
