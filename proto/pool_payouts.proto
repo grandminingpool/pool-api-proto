@@ -6,66 +6,156 @@ option go_package = "github.com/grandminingpool/pool-api-proto/generated/pool_pa
 
 import "google/protobuf/timestamp.proto";
 import "pool_miners.proto";
+import "utils/pagination.proto";
+import "utils/sorts.proto";
+import "utils/filters.proto";
 
 message MinerBalance {
     uint64 balance = 1;
+    google.protobuf.Timestamp last_awarded_at = 2;
 }
 
 message MinersBalances {
     map<string, MinerBalance> balances = 1;
 }
 
-message MinersPayoutsFilters {
-    google.protobuf.Timestamp paid_from = 1;
-}
-
-message MinerPayoutsRequest {
+message PayoutsFilters {
     string address = 1;
-    MinersPayoutsFilters filters = 2;
-}
-
-message MinersPayoutsRequest {
-    repeated string addresses = 1;
-    MinersPayoutsFilters filters = 2;
-}
-
-message MinerPayout {
-    string tx_hash = 1;
-    uint64 amount = 2;
-    google.protobuf.Timestamp paid_at = 3;
-}
-
-message MinerSoloPayout {
-    bytes miner_hashrate = 1;
     string tx_hash = 2;
-    uint64 reward = 3;
-    string block_hash = 4;
-    uint64 block_reward  = 5;
-    uint64 share_difficulty  = 6;
-    google.protobuf.Timestamp paid_at = 7;
+    filters.UInt64RangeFilter amount = 3;
+    filters.DateFilter paid_at = 4;
 }
 
-message MinerPayouts {
-    repeated MinerPayout payouts = 1;
+message PayoutsSorts {
+    sorts.SortOrder miner = 1;
+    sorts.SortOrder tx_hash = 2;
+    sorts.SortOrder amount = 3;
+    sorts.SortOrder paid_at = 4;
 }
 
-message MinersPayouts {
-    map<string, MinerPayouts> payouts = 1;
+message GetPayoutsRequest {
+    PayoutsSorts sorts = 1;
+    PayoutsFilters filters = 2;
+    pagination.PaginationRequest pagination = 3;
 }
 
-message MinerSoloPayouts {
-    repeated MinerSoloPayout payouts = 1;
+message GetPayoutsFromListRequest {
+    repeated string miners = 1;
+    PayoutsFilters filters = 2;
 }
 
-message MinersSoloPayouts {
-    map<string, MinerSoloPayouts> payouts = 1;
+message Payout {
+    string miner = 1;
+    string tx_hash = 2;
+    uint64 amount = 3;
+    google.protobuf.Timestamp paid_at = 4;
+}
+
+message PayoutsList {
+    repeated Payout payouts = 1;
+    pagination.PaginationResponse pagination = 2;
+}
+
+message Payouts {
+    map<string, Payouts> payouts = 1;
+}
+
+message MinedBlocksSorts {
+    sorts.SortOrder miner = 1;
+    sorts.SortOrder miner_hashrate = 2;
+    sorts.SortOrder block_hash = 3;
+    sorts.SortOrder share_difficulty = 4;
+    sorts.SortOrder round_miners_count = 5;
+    sorts.SortOrder mined_at = 6;
+}
+
+message MinedBlocksFilters {
+    string miner = 1;
+    filters.BigIntRangeFilter miner_hashrate = 2;
+    string block_hash = 3;
+    filters.UInt64RangeFilter share_difficulty = 4;
+    filters.UInt32RangeFilter round_miners_count = 5;
+    filters.DateFilter mined_at = 6;
+}
+
+message GetBlocksRequest {
+    MinedBlocksSorts sorts = 1;
+    MinedBlocksFilters filters = 2;
+    pagination.PaginationRequest pagination = 3;
+}
+
+message MinedBlock {
+    string miner = 1;
+    bytes miner_hashrate = 2;
+    string block_hash = 3;
+    uint64 share_difficulty = 4;
+    uint32 round_miners_count = 5;
+    google.protobuf.Timestamp mined_at = 6;
+}
+
+message MinedBlocksList {
+    repeated MinedBlock blocks = 1;
+    pagination.PaginationResponse pagination = 2;
+}
+
+message MinedSoloBlocksSorts {
+    sorts.SortOrder miner = 1;
+    sorts.SortOrder miner_hashrate = 2;
+    sorts.SortOrder block_hash = 3;
+    sorts.SortOrder block_reward = 4;
+    sorts.SortOrder tx_hash = 5;
+    sorts.SortOrder share_difficulty = 6;
+    sorts.SortOrder mined_at = 7;
+}
+
+message MinedSoloBlocksFilters {
+    string miner = 1;
+    filters.BigIntRangeFilter miner_hashrate = 2;
+    string block_hash = 3;
+    filters.UInt64RangeFilter block_reward = 4;
+    string tx_hash = 5;
+    filters.UInt64RangeFilter share_difficulty = 6;
+    filters.DateFilter mined_at = 7;
+}
+
+message GetSoloBlocksRequest {
+    MinedSoloBlocksSorts sorts = 1;
+    MinedSoloBlocksFilters filters = 2;
+    pagination.PaginationRequest pagination = 3;
+}
+
+message GetSoloBlocksFromListRequest {
+    repeated string miners = 1;
+    MinedSoloBlocksFilters filters = 2;
+}
+
+message MinedSoloBlock {
+    string miner = 1;
+    bytes miner_hashrate = 2;
+    string block_hash = 3;
+    uint64 block_reward = 4;
+    string tx_hash = 5;
+    uint64 share_difficulty = 6;
+    google.protobuf.Timestamp mined_at = 7;
+}
+
+message MinedSoloBlocksList {
+    repeated MinedSoloBlock blocks = 1;
+    pagination.PaginationResponse pagination = 2;
+}
+
+message MinedSoloBlocks {
+    map<string, MinedSoloBlock> blocks = 1;
 }
 
 service PoolPayoutsService {
     rpc GetMinerBalance(pool_miners.MinerAddressRequest) returns (MinerBalance);
-    rpc GetBalances(pool_miners.MinerAddressesRequest) returns (MinersBalances);
-    rpc GetMinerPayouts(MinerPayoutsRequest) returns (MinerPayouts);
-    rpc GetPayouts(MinersPayoutsRequest) returns (MinersPayouts);
-    rpc GetMinerSoloPayouts(MinerPayoutsRequest) returns (MinerSoloPayouts);
-    rpc GetSoloPayouts(MinersPayoutsRequest) returns (MinersSoloPayouts);
+    rpc GetMinersBalancesFromList(pool_miners.MinerAddressesRequest) returns (MinersBalances);
+    
+    rpc GetPayouts(GetPayoutsRequest) returns (PayoutsList);
+    rpc GetPayoutsFromList(GetPayoutsFromListRequest) returns (Payouts);
+    
+    rpc GetBlocks(GetBlocksRequest) returns (MinedBlocksList);
+    rpc GetSoloBlocks(GetSoloBlocksRequest) returns (MinedSoloBlocksList);
+    rpc GetSoloBlocksFromList(GetSoloBlocksFromListRequest) returns (MinedSoloBlocks);
 }

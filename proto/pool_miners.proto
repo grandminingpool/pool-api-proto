@@ -5,6 +5,9 @@ package pool_miners;
 option go_package = "github.com/grandminingpool/pool-api-proto/generated/pool_miners;poolMinersProto";
 
 import "google/protobuf/timestamp.proto";
+import "utils/pagination.proto";
+import "utils/sorts.proto";
+import "utils/filters.proto";
 
 message MinerAddressRequest {
     string address = 1;
@@ -18,12 +21,56 @@ message ValidateAddressResponse {
     bool valid = 1;
 }
 
+message MinersFilters {
+    string address = 1;
+    filters.BigIntRangeFilter hashrate = 2;
+    filters.UInt32RangeFilter workers_count = 3;
+    filters.UInt32RangeFilter blocks_count = 4;
+    filters.UInt32RangeFilter solo_blocks_count = 5;
+    filters.DateFilter joined_at = 6;
+}
+
+message MinersSorts {
+    sorts.SortOrder address = 1;
+    sorts.SortOrder hashrate = 2;
+    sorts.SortOrder workers_count = 3;
+    sorts.SortOrder blocks_count = 4;
+    sorts.SortOrder solo_blocks_count = 5;
+    sorts.SortOrder joined_at = 6;
+}
+
+message GetMinersRequest {
+    MinersFilters filters = 1;
+    MinersSorts sorts = 2;
+    pagination.PaginationRequest pagination = 3;
+}
+
+message Miner {
+    string address = 1;
+    bytes hashrate = 2;
+    uint32 workers_count = 3;
+    uint32 blocks_count = 4;
+    uint32 solo_blocks_count = 5;
+    google.protobuf.Timestamp joined_at = 6;
+    google.protobuf.Timestamp last_activity = 7;
+}
+
+message Miners {
+    map<string, Miner> miners = 1;
+}
+
+message MinersList {
+    repeated Miner miners = 1;
+    pagination.PaginationResponse pagination = 2;
+}
+
 message MinerWorker {
     string worker = 1;
     string region = 2;
-    bool solo = 3;
-    bytes hashrate = 4;
-    google.protobuf.Timestamp connected_at = 5;
+    string agent = 3;
+    bool solo = 4;
+    bytes hashrate = 5;
+    google.protobuf.Timestamp connected_at = 6;
 }
 
 message MinerWorkers {
@@ -31,11 +78,15 @@ message MinerWorkers {
 }
 
 message MinersWorkers {
-    map<string, MinerWorkers> workers = 1;
+    map<string, MinerWorker> workers = 1;
 }
 
 service PoolMinersService {
     rpc ValidateAddress(MinerAddressRequest) returns (ValidateAddressResponse);
+    
+    rpc GetMiners(GetMinersRequest) returns (MinersList);
+    rpc GetMinersFromList(MinerAddressesRequest) returns (Miners);
+    
     rpc GetMinerWorkers(MinerAddressRequest) returns (MinerWorkers);
-    rpc GetWorkers(MinerAddressesRequest) returns (MinersWorkers);
+    rpc GetMinersWorkersFromList(MinerAddressesRequest) returns (MinersWorkers);
 }

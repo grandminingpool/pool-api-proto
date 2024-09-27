@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package pagination;
+
+option go_package = "github.com/grandminingpool/pool-api-proto/generated/utils/pagination;paginationProto";
+
+message PaginationRequest {
+  uint32 offset = 1;
+  uint32 limit = 2;
+}
+
+message PaginationResponse {
+  uint32 offset = 1;
+  uint32 limit = 2;
+  uint32 total = 3;
+}

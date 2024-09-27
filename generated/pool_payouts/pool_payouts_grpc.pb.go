@@ -24,11 +24,12 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PoolPayoutsServiceClient interface {
 	GetMinerBalance(ctx context.Context, in *pool_miners.MinerAddressRequest, opts ...grpc.CallOption) (*MinerBalance, error)
-	GetBalances(ctx context.Context, in *pool_miners.MinerAddressesRequest, opts ...grpc.CallOption) (*MinersBalances, error)
-	GetMinerPayouts(ctx context.Context, in *MinerPayoutsRequest, opts ...grpc.CallOption) (*MinerPayouts, error)
-	GetPayouts(ctx context.Context, in *MinersPayoutsRequest, opts ...grpc.CallOption) (*MinersPayouts, error)
-	GetMinerSoloPayouts(ctx context.Context, in *MinerPayoutsRequest, opts ...grpc.CallOption) (*MinerSoloPayouts, error)
-	GetSoloPayouts(ctx context.Context, in *MinersPayoutsRequest, opts ...grpc.CallOption) (*MinersSoloPayouts, error)
+	GetMinersBalancesFromList(ctx context.Context, in *pool_miners.MinerAddressesRequest, opts ...grpc.CallOption) (*MinersBalances, error)
+	GetPayouts(ctx context.Context, in *GetPayoutsRequest, opts ...grpc.CallOption) (*PayoutsList, error)
+	GetPayoutsFromList(ctx context.Context, in *GetPayoutsFromListRequest, opts ...grpc.CallOption) (*Payouts, error)
+	GetBlocks(ctx context.Context, in *GetBlocksRequest, opts ...grpc.CallOption) (*MinedBlocksList, error)
+	GetSoloBlocks(ctx context.Context, in *GetSoloBlocksRequest, opts ...grpc.CallOption) (*MinedSoloBlocksList, error)
+	GetSoloBlocksFromList(ctx context.Context, in *GetSoloBlocksFromListRequest, opts ...grpc.CallOption) (*MinedSoloBlocks, error)
 }
 
 type poolPayoutsServiceClient struct {
@@ -48,26 +49,17 @@ func (c *poolPayoutsServiceClient) GetMinerBalance(ctx context.Context, in *pool
 	return out, nil
 }
 
-func (c *poolPayoutsServiceClient) GetBalances(ctx context.Context, in *pool_miners.MinerAddressesRequest, opts ...grpc.CallOption) (*MinersBalances, error) {
+func (c *poolPayoutsServiceClient) GetMinersBalancesFromList(ctx context.Context, in *pool_miners.MinerAddressesRequest, opts ...grpc.CallOption) (*MinersBalances, error) {
 	out := new(MinersBalances)
-	err := c.cc.Invoke(ctx, "/pool_payouts.PoolPayoutsService/GetBalances", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pool_payouts.PoolPayoutsService/GetMinersBalancesFromList", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *poolPayoutsServiceClient) GetMinerPayouts(ctx context.Context, in *MinerPayoutsRequest, opts ...grpc.CallOption) (*MinerPayouts, error) {
-	out := new(MinerPayouts)
-	err := c.cc.Invoke(ctx, "/pool_payouts.PoolPayoutsService/GetMinerPayouts", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *poolPayoutsServiceClient) GetPayouts(ctx context.Context, in *MinersPayoutsRequest, opts ...grpc.CallOption) (*MinersPayouts, error) {
-	out := new(MinersPayouts)
+func (c *poolPayoutsServiceClient) GetPayouts(ctx context.Context, in *GetPayoutsRequest, opts ...grpc.CallOption) (*PayoutsList, error) {
+	out := new(PayoutsList)
 	err := c.cc.Invoke(ctx, "/pool_payouts.PoolPayoutsService/GetPayouts", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -75,18 +67,36 @@ func (c *poolPayoutsServiceClient) GetPayouts(ctx context.Context, in *MinersPay
 	return out, nil
 }
 
-func (c *poolPayoutsServiceClient) GetMinerSoloPayouts(ctx context.Context, in *MinerPayoutsRequest, opts ...grpc.CallOption) (*MinerSoloPayouts, error) {
-	out := new(MinerSoloPayouts)
-	err := c.cc.Invoke(ctx, "/pool_payouts.PoolPayoutsService/GetMinerSoloPayouts", in, out, opts...)
+func (c *poolPayoutsServiceClient) GetPayoutsFromList(ctx context.Context, in *GetPayoutsFromListRequest, opts ...grpc.CallOption) (*Payouts, error) {
+	out := new(Payouts)
+	err := c.cc.Invoke(ctx, "/pool_payouts.PoolPayoutsService/GetPayoutsFromList", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *poolPayoutsServiceClient) GetSoloPayouts(ctx context.Context, in *MinersPayoutsRequest, opts ...grpc.CallOption) (*MinersSoloPayouts, error) {
-	out := new(MinersSoloPayouts)
-	err := c.cc.Invoke(ctx, "/pool_payouts.PoolPayoutsService/GetSoloPayouts", in, out, opts...)
+func (c *poolPayoutsServiceClient) GetBlocks(ctx context.Context, in *GetBlocksRequest, opts ...grpc.CallOption) (*MinedBlocksList, error) {
+	out := new(MinedBlocksList)
+	err := c.cc.Invoke(ctx, "/pool_payouts.PoolPayoutsService/GetBlocks", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *poolPayoutsServiceClient) GetSoloBlocks(ctx context.Context, in *GetSoloBlocksRequest, opts ...grpc.CallOption) (*MinedSoloBlocksList, error) {
+	out := new(MinedSoloBlocksList)
+	err := c.cc.Invoke(ctx, "/pool_payouts.PoolPayoutsService/GetSoloBlocks", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *poolPayoutsServiceClient) GetSoloBlocksFromList(ctx context.Context, in *GetSoloBlocksFromListRequest, opts ...grpc.CallOption) (*MinedSoloBlocks, error) {
+	out := new(MinedSoloBlocks)
+	err := c.cc.Invoke(ctx, "/pool_payouts.PoolPayoutsService/GetSoloBlocksFromList", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -98,11 +108,12 @@ func (c *poolPayoutsServiceClient) GetSoloPayouts(ctx context.Context, in *Miner
 // for forward compatibility
 type PoolPayoutsServiceServer interface {
 	GetMinerBalance(context.Context, *pool_miners.MinerAddressRequest) (*MinerBalance, error)
-	GetBalances(context.Context, *pool_miners.MinerAddressesRequest) (*MinersBalances, error)
-	GetMinerPayouts(context.Context, *MinerPayoutsRequest) (*MinerPayouts, error)
-	GetPayouts(context.Context, *MinersPayoutsRequest) (*MinersPayouts, error)
-	GetMinerSoloPayouts(context.Context, *MinerPayoutsRequest) (*MinerSoloPayouts, error)
-	GetSoloPayouts(context.Context, *MinersPayoutsRequest) (*MinersSoloPayouts, error)
+	GetMinersBalancesFromList(context.Context, *pool_miners.MinerAddressesRequest) (*MinersBalances, error)
+	GetPayouts(context.Context, *GetPayoutsRequest) (*PayoutsList, error)
+	GetPayoutsFromList(context.Context, *GetPayoutsFromListRequest) (*Payouts, error)
+	GetBlocks(context.Context, *GetBlocksRequest) (*MinedBlocksList, error)
+	GetSoloBlocks(context.Context, *GetSoloBlocksRequest) (*MinedSoloBlocksList, error)
+	GetSoloBlocksFromList(context.Context, *GetSoloBlocksFromListRequest) (*MinedSoloBlocks, error)
 	mustEmbedUnimplementedPoolPayoutsServiceServer()
 }
 
@@ -113,20 +124,23 @@ type UnimplementedPoolPayoutsServiceServer struct {
 func (UnimplementedPoolPayoutsServiceServer) GetMinerBalance(context.Context, *pool_miners.MinerAddressRequest) (*MinerBalance, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMinerBalance not implemented")
 }
-func (UnimplementedPoolPayoutsServiceServer) GetBalances(context.Context, *pool_miners.MinerAddressesRequest) (*MinersBalances, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetBalances not implemented")
+func (UnimplementedPoolPayoutsServiceServer) GetMinersBalancesFromList(context.Context, *pool_miners.MinerAddressesRequest) (*MinersBalances, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMinersBalancesFromList not implemented")
 }
-func (UnimplementedPoolPayoutsServiceServer) GetMinerPayouts(context.Context, *MinerPayoutsRequest) (*MinerPayouts, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetMinerPayouts not implemented")
-}
-func (UnimplementedPoolPayoutsServiceServer) GetPayouts(context.Context, *MinersPayoutsRequest) (*MinersPayouts, error) {
+func (UnimplementedPoolPayoutsServiceServer) GetPayouts(context.Context, *GetPayoutsRequest) (*PayoutsList, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPayouts not implemented")
 }
-func (UnimplementedPoolPayoutsServiceServer) GetMinerSoloPayouts(context.Context, *MinerPayoutsRequest) (*MinerSoloPayouts, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetMinerSoloPayouts not implemented")
+func (UnimplementedPoolPayoutsServiceServer) GetPayoutsFromList(context.Context, *GetPayoutsFromListRequest) (*Payouts, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPayoutsFromList not implemented")
 }
-func (UnimplementedPoolPayoutsServiceServer) GetSoloPayouts(context.Context, *MinersPayoutsRequest) (*MinersSoloPayouts, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetSoloPayouts not implemented")
+func (UnimplementedPoolPayoutsServiceServer) GetBlocks(context.Context, *GetBlocksRequest) (*MinedBlocksList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBlocks not implemented")
+}
+func (UnimplementedPoolPayoutsServiceServer) GetSoloBlocks(context.Context, *GetSoloBlocksRequest) (*MinedSoloBlocksList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSoloBlocks not implemented")
+}
+func (UnimplementedPoolPayoutsServiceServer) GetSoloBlocksFromList(context.Context, *GetSoloBlocksFromListRequest) (*MinedSoloBlocks, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSoloBlocksFromList not implemented")
 }
 func (UnimplementedPoolPayoutsServiceServer) mustEmbedUnimplementedPoolPayoutsServiceServer() {}
 
@@ -159,44 +173,26 @@ func _PoolPayoutsService_GetMinerBalance_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PoolPayoutsService_GetBalances_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PoolPayoutsService_GetMinersBalancesFromList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(pool_miners.MinerAddressesRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PoolPayoutsServiceServer).GetBalances(ctx, in)
+		return srv.(PoolPayoutsServiceServer).GetMinersBalancesFromList(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pool_payouts.PoolPayoutsService/GetBalances",
+		FullMethod: "/pool_payouts.PoolPayoutsService/GetMinersBalancesFromList",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PoolPayoutsServiceServer).GetBalances(ctx, req.(*pool_miners.MinerAddressesRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _PoolPayoutsService_GetMinerPayouts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MinerPayoutsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PoolPayoutsServiceServer).GetMinerPayouts(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/pool_payouts.PoolPayoutsService/GetMinerPayouts",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PoolPayoutsServiceServer).GetMinerPayouts(ctx, req.(*MinerPayoutsRequest))
+		return srv.(PoolPayoutsServiceServer).GetMinersBalancesFromList(ctx, req.(*pool_miners.MinerAddressesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _PoolPayoutsService_GetPayouts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MinersPayoutsRequest)
+	in := new(GetPayoutsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -208,43 +204,79 @@ func _PoolPayoutsService_GetPayouts_Handler(srv interface{}, ctx context.Context
 		FullMethod: "/pool_payouts.PoolPayoutsService/GetPayouts",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PoolPayoutsServiceServer).GetPayouts(ctx, req.(*MinersPayoutsRequest))
+		return srv.(PoolPayoutsServiceServer).GetPayouts(ctx, req.(*GetPayoutsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PoolPayoutsService_GetMinerSoloPayouts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MinerPayoutsRequest)
+func _PoolPayoutsService_GetPayoutsFromList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPayoutsFromListRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PoolPayoutsServiceServer).GetMinerSoloPayouts(ctx, in)
+		return srv.(PoolPayoutsServiceServer).GetPayoutsFromList(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pool_payouts.PoolPayoutsService/GetMinerSoloPayouts",
+		FullMethod: "/pool_payouts.PoolPayoutsService/GetPayoutsFromList",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PoolPayoutsServiceServer).GetMinerSoloPayouts(ctx, req.(*MinerPayoutsRequest))
+		return srv.(PoolPayoutsServiceServer).GetPayoutsFromList(ctx, req.(*GetPayoutsFromListRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PoolPayoutsService_GetSoloPayouts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MinersPayoutsRequest)
+func _PoolPayoutsService_GetBlocks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBlocksRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PoolPayoutsServiceServer).GetSoloPayouts(ctx, in)
+		return srv.(PoolPayoutsServiceServer).GetBlocks(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pool_payouts.PoolPayoutsService/GetSoloPayouts",
+		FullMethod: "/pool_payouts.PoolPayoutsService/GetBlocks",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PoolPayoutsServiceServer).GetSoloPayouts(ctx, req.(*MinersPayoutsRequest))
+		return srv.(PoolPayoutsServiceServer).GetBlocks(ctx, req.(*GetBlocksRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PoolPayoutsService_GetSoloBlocks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSoloBlocksRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PoolPayoutsServiceServer).GetSoloBlocks(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pool_payouts.PoolPayoutsService/GetSoloBlocks",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PoolPayoutsServiceServer).GetSoloBlocks(ctx, req.(*GetSoloBlocksRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PoolPayoutsService_GetSoloBlocksFromList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSoloBlocksFromListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PoolPayoutsServiceServer).GetSoloBlocksFromList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pool_payouts.PoolPayoutsService/GetSoloBlocksFromList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PoolPayoutsServiceServer).GetSoloBlocksFromList(ctx, req.(*GetSoloBlocksFromListRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -261,24 +293,28 @@ var PoolPayoutsService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _PoolPayoutsService_GetMinerBalance_Handler,
 		},
 		{
-			MethodName: "GetBalances",
-			Handler:    _PoolPayoutsService_GetBalances_Handler,
-		},
-		{
-			MethodName: "GetMinerPayouts",
-			Handler:    _PoolPayoutsService_GetMinerPayouts_Handler,
+			MethodName: "GetMinersBalancesFromList",
+			Handler:    _PoolPayoutsService_GetMinersBalancesFromList_Handler,
 		},
 		{
 			MethodName: "GetPayouts",
 			Handler:    _PoolPayoutsService_GetPayouts_Handler,
 		},
 		{
-			MethodName: "GetMinerSoloPayouts",
-			Handler:    _PoolPayoutsService_GetMinerSoloPayouts_Handler,
+			MethodName: "GetPayoutsFromList",
+			Handler:    _PoolPayoutsService_GetPayoutsFromList_Handler,
 		},
 		{
-			MethodName: "GetSoloPayouts",
-			Handler:    _PoolPayoutsService_GetSoloPayouts_Handler,
+			MethodName: "GetBlocks",
+			Handler:    _PoolPayoutsService_GetBlocks_Handler,
+		},
+		{
+			MethodName: "GetSoloBlocks",
+			Handler:    _PoolPayoutsService_GetSoloBlocks_Handler,
+		},
+		{
+			MethodName: "GetSoloBlocksFromList",
+			Handler:    _PoolPayoutsService_GetSoloBlocksFromList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

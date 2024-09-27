@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package sorts;
+
+option go_package = "github.com/grandminingpool/pool-api-proto/generated/utils/sorts;sortsProto";
+
+enum SortDirection {
+  ASC = 0;
+  DESC = 1;
+}
+
+message SortOrder {
+  SortDirection direction = 1;
+}

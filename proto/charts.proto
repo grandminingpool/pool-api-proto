@@ -1,0 +1,103 @@
+syntax = "proto3";
+
+package charts;
+
+option go_package = "github.com/grandminingpool/pool-api-proto/generated/charts;chartsProto";
+
+import "google/protobuf/timestamp.proto";
+
+enum ChartPeriod {
+    Day = 0;
+    Week = 1;
+    Month = 2;
+}
+
+message GetPoolStatsRequest {
+    ChartPeriod period = 1;
+    bool solo = 2;
+}
+
+message PoolStatsPoint {
+    bytes hashrate = 1;
+    bytes avg_hashrate = 2;
+    uint32 miners_count = 3;
+    google.protobuf.Timestamp date = 4;
+}
+
+message PoolStatsPoints {
+    repeated PoolStatsPoint points = 1;
+}
+
+message GetPoolDifficultiesRequest {
+    ChartPeriod period = 1;
+    bool solo = 2;
+}
+
+message PoolDifficultiesPoint {
+    uint64 share_difficulty = 1;
+    google.protobuf.Timestamp date = 2;
+}
+
+message PoolDifficultiesPoints {
+    repeated PoolDifficultiesPoint points = 1;
+}
+
+message GetRoundsRequest {
+    ChartPeriod period = 1;
+}
+
+message RoundsPoint {
+    uint32 rounds_count = 1;
+    uint32 miners_count = 2;
+    uint64 avg_round_interval = 3;
+    google.protobuf.Timestamp date = 4;
+}
+
+message RoundsPoints {
+    repeated RoundsPoint points = 1;
+}
+
+message GetMinerChartRequest {
+    string miner = 1;
+    bool solo = 2;
+    ChartPeriod period = 3;
+}
+
+message MinerHashratesPoint {
+    bytes hashrate = 1;
+    google.protobuf.Timestamp date = 2;
+}
+
+message MinerHashratesPoints {
+    repeated MinerHashratesPoint points = 1;
+}
+
+message GetMinerWorkerChartRequest {
+    string miner = 1;
+    string worker = 2;
+    ChartPeriod period = 3;
+}
+
+message MinerSharesPoint {
+    uint32 accepted_shares_count = 1;
+    uint32 rejected_shares_count = 2;
+    uint32 stale_shares_count = 3;
+    uint32 valid_block_shares_count = 4;
+    google.protobuf.Timestamp date = 5;
+}
+
+message MinerSharesPoints {
+    repeated MinerSharesPoint points = 1;
+}
+
+service ChartsService {
+    rpc GetPoolStats(GetPoolStatsRequest) returns (PoolStatsPoints);
+    rpc GetPoolDifficulties(GetPoolDifficultiesRequest) returns (PoolDifficultiesPoints);
+    rpc GetRounds(GetRoundsRequest) returns (RoundsPoints);
+    
+    rpc GetMinerHashrates(GetMinerChartRequest) returns (MinerHashratesPoints);
+    rpc GetMinerWorkerHashrates(GetMinerWorkerChartRequest) returns (MinerHashratesPoints);
+    
+    rpc GetMinerShares(GetMinerChartRequest) returns (MinerSharesPoints);
+    rpc GetMinerWorkerShares(GetMinerWorkerChartRequest) returns (MinerSharesPoints);
+}
