@@ -22,21 +22,21 @@ message ValidateAddressResponse {
 }
 
 message MinersFilters {
-    string address = 1;
-    filters.BigIntRangeFilter hashrate = 2;
-    filters.UInt32RangeFilter workers_count = 3;
-    filters.UInt32RangeFilter blocks_count = 4;
-    filters.UInt32RangeFilter solo_blocks_count = 5;
-    filters.DateFilter joined_at = 6;
+    optional string address = 1;
+    optional filters.BigIntRangeFilter hashrate = 2;
+    optional filters.UInt32RangeFilter workers_count = 3;
+    optional filters.UInt32RangeFilter blocks_count = 4;
+    optional filters.UInt32RangeFilter solo_blocks_count = 5;
+    optional filters.DateFilter joined_at = 6;
 }
 
 message MinersSorts {
-    sorts.SortOrder address = 1;
-    sorts.SortOrder hashrate = 2;
-    sorts.SortOrder workers_count = 3;
-    sorts.SortOrder blocks_count = 4;
-    sorts.SortOrder solo_blocks_count = 5;
-    sorts.SortOrder joined_at = 6;
+    optional sorts.SortOrder address = 1;
+    optional sorts.SortOrder hashrate = 2;
+    optional sorts.SortOrder workers_count = 3;
+    optional sorts.SortOrder blocks_count = 4;
+    optional sorts.SortOrder solo_blocks_count = 5;
+    optional sorts.SortOrder joined_at = 6;
 }
 
 message GetMinersRequest {

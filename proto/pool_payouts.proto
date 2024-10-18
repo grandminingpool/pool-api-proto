@@ -20,17 +20,17 @@ message MinersBalances {
 }
 
 message PayoutsFilters {
-    string address = 1;
-    string tx_hash = 2;
-    filters.UInt64RangeFilter amount = 3;
-    filters.DateFilter paid_at = 4;
+    optional string address = 1;
+    optional string tx_hash = 2;
+    optional filters.UInt64RangeFilter amount = 3;
+    optional filters.DateFilter paid_at = 4;
 }
 
 message PayoutsSorts {
-    sorts.SortOrder miner = 1;
-    sorts.SortOrder tx_hash = 2;
-    sorts.SortOrder amount = 3;
-    sorts.SortOrder paid_at = 4;
+    optional sorts.SortOrder miner = 1;
+    optional sorts.SortOrder tx_hash = 2;
+    optional sorts.SortOrder amount = 3;
+    optional sorts.SortOrder paid_at = 4;
 }
 
 message GetPayoutsRequest {
@@ -61,21 +61,21 @@ message Payouts {
 }
 
 message MinedBlocksSorts {
-    sorts.SortOrder miner = 1;
-    sorts.SortOrder miner_hashrate = 2;
-    sorts.SortOrder block_hash = 3;
-    sorts.SortOrder share_difficulty = 4;
-    sorts.SortOrder round_miners_count = 5;
-    sorts.SortOrder mined_at = 6;
+    optional sorts.SortOrder miner = 1;
+    optional sorts.SortOrder miner_hashrate = 2;
+    optional sorts.SortOrder block_hash = 3;
+    optional sorts.SortOrder share_difficulty = 4;
+    optional sorts.SortOrder round_miners_count = 5;
+    optional sorts.SortOrder mined_at = 6;
 }
 
 message MinedBlocksFilters {
-    string miner = 1;
-    filters.BigIntRangeFilter miner_hashrate = 2;
-    string block_hash = 3;
-    filters.UInt64RangeFilter share_difficulty = 4;
-    filters.UInt32RangeFilter round_miners_count = 5;
-    filters.DateFilter mined_at = 6;
+    optional string miner = 1;
+    optional filters.BigIntRangeFilter miner_hashrate = 2;
+    optional string block_hash = 3;
+    optional filters.UInt64RangeFilter share_difficulty = 4;
+    optional filters.UInt32RangeFilter round_miners_count = 5;
+    optional filters.DateFilter mined_at = 6;
 }
 
 message GetBlocksRequest {
@@ -99,23 +99,23 @@ message MinedBlocksList {
 }
 
 message MinedSoloBlocksSorts {
-    sorts.SortOrder miner = 1;
-    sorts.SortOrder miner_hashrate = 2;
-    sorts.SortOrder block_hash = 3;
-    sorts.SortOrder block_reward = 4;
-    sorts.SortOrder tx_hash = 5;
-    sorts.SortOrder share_difficulty = 6;
-    sorts.SortOrder mined_at = 7;
+    optional sorts.SortOrder miner = 1;
+    optional sorts.SortOrder miner_hashrate = 2;
+    optional sorts.SortOrder block_hash = 3;
+    optional sorts.SortOrder block_reward = 4;
+    optional sorts.SortOrder tx_hash = 5;
+    optional sorts.SortOrder share_difficulty = 6;
+    optional sorts.SortOrder mined_at = 7;
 }
 
 message MinedSoloBlocksFilters {
-    string miner = 1;
-    filters.BigIntRangeFilter miner_hashrate = 2;
-    string block_hash = 3;
-    filters.UInt64RangeFilter block_reward = 4;
-    string tx_hash = 5;
-    filters.UInt64RangeFilter share_difficulty = 6;
-    filters.DateFilter mined_at = 7;
+    optional string miner = 1;
+    optional filters.BigIntRangeFilter miner_hashrate = 2;
+    optional string block_hash = 3;
+    optional filters.UInt64RangeFilter block_reward = 4;
+    optional string tx_hash = 5;
+    optional filters.UInt64RangeFilter share_difficulty = 6;
+    optional filters.DateFilter mined_at = 7;
 }
 
 message GetSoloBlocksRequest {
