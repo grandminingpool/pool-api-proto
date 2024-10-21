@@ -55,10 +55,6 @@ message Miner {
     google.protobuf.Timestamp last_activity = 7;
 }
 
-message Miners {
-    map<string, Miner> miners = 1;
-}
-
 message MinersList {
     repeated Miner miners = 1;
     pagination.PaginationResponse pagination = 2;
@@ -77,16 +73,15 @@ message MinerWorkers {
     repeated MinerWorker workers = 1;
 }
 
-message MinersWorkers {
-    map<string, MinerWorker> workers = 1;
+message MinersWorkersMap {
+    map<string, MinerWorkers> workers = 1;
 }
 
 service PoolMinersService {
     rpc ValidateAddress(MinerAddressRequest) returns (ValidateAddressResponse);
     
     rpc GetMiners(GetMinersRequest) returns (MinersList);
-    rpc GetMinersFromList(MinerAddressesRequest) returns (Miners);
     
     rpc GetMinerWorkers(MinerAddressRequest) returns (MinerWorkers);
-    rpc GetMinersWorkersFromList(MinerAddressesRequest) returns (MinersWorkers);
+    rpc GetMinersWorkersFromList(MinerAddressesRequest) returns (MinersWorkersMap);
 }

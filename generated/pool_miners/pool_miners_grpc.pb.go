@@ -24,9 +24,8 @@ const _ = grpc.SupportPackageIsVersion7
 type PoolMinersServiceClient interface {
 	ValidateAddress(ctx context.Context, in *MinerAddressRequest, opts ...grpc.CallOption) (*ValidateAddressResponse, error)
 	GetMiners(ctx context.Context, in *GetMinersRequest, opts ...grpc.CallOption) (*MinersList, error)
-	GetMinersFromList(ctx context.Context, in *MinerAddressesRequest, opts ...grpc.CallOption) (*Miners, error)
 	GetMinerWorkers(ctx context.Context, in *MinerAddressRequest, opts ...grpc.CallOption) (*MinerWorkers, error)
-	GetMinersWorkersFromList(ctx context.Context, in *MinerAddressesRequest, opts ...grpc.CallOption) (*MinersWorkers, error)
+	GetMinersWorkersFromList(ctx context.Context, in *MinerAddressesRequest, opts ...grpc.CallOption) (*MinersWorkersMap, error)
 }
 
 type poolMinersServiceClient struct {
@@ -55,15 +54,6 @@ func (c *poolMinersServiceClient) GetMiners(ctx context.Context, in *GetMinersRe
 	return out, nil
 }
 
-func (c *poolMinersServiceClient) GetMinersFromList(ctx context.Context, in *MinerAddressesRequest, opts ...grpc.CallOption) (*Miners, error) {
-	out := new(Miners)
-	err := c.cc.Invoke(ctx, "/pool_miners.PoolMinersService/GetMinersFromList", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *poolMinersServiceClient) GetMinerWorkers(ctx context.Context, in *MinerAddressRequest, opts ...grpc.CallOption) (*MinerWorkers, error) {
 	out := new(MinerWorkers)
 	err := c.cc.Invoke(ctx, "/pool_miners.PoolMinersService/GetMinerWorkers", in, out, opts...)
@@ -73,8 +63,8 @@ func (c *poolMinersServiceClient) GetMinerWorkers(ctx context.Context, in *Miner
 	return out, nil
 }
 
-func (c *poolMinersServiceClient) GetMinersWorkersFromList(ctx context.Context, in *MinerAddressesRequest, opts ...grpc.CallOption) (*MinersWorkers, error) {
-	out := new(MinersWorkers)
+func (c *poolMinersServiceClient) GetMinersWorkersFromList(ctx context.Context, in *MinerAddressesRequest, opts ...grpc.CallOption) (*MinersWorkersMap, error) {
+	out := new(MinersWorkersMap)
 	err := c.cc.Invoke(ctx, "/pool_miners.PoolMinersService/GetMinersWorkersFromList", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -88,9 +78,8 @@ func (c *poolMinersServiceClient) GetMinersWorkersFromList(ctx context.Context, 
 type PoolMinersServiceServer interface {
 	ValidateAddress(context.Context, *MinerAddressRequest) (*ValidateAddressResponse, error)
 	GetMiners(context.Context, *GetMinersRequest) (*MinersList, error)
-	GetMinersFromList(context.Context, *MinerAddressesRequest) (*Miners, error)
 	GetMinerWorkers(context.Context, *MinerAddressRequest) (*MinerWorkers, error)
-	GetMinersWorkersFromList(context.Context, *MinerAddressesRequest) (*MinersWorkers, error)
+	GetMinersWorkersFromList(context.Context, *MinerAddressesRequest) (*MinersWorkersMap, error)
 	mustEmbedUnimplementedPoolMinersServiceServer()
 }
 
@@ -104,13 +93,10 @@ func (UnimplementedPoolMinersServiceServer) ValidateAddress(context.Context, *Mi
 func (UnimplementedPoolMinersServiceServer) GetMiners(context.Context, *GetMinersRequest) (*MinersList, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMiners not implemented")
 }
-func (UnimplementedPoolMinersServiceServer) GetMinersFromList(context.Context, *MinerAddressesRequest) (*Miners, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetMinersFromList not implemented")
-}
 func (UnimplementedPoolMinersServiceServer) GetMinerWorkers(context.Context, *MinerAddressRequest) (*MinerWorkers, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMinerWorkers not implemented")
 }
-func (UnimplementedPoolMinersServiceServer) GetMinersWorkersFromList(context.Context, *MinerAddressesRequest) (*MinersWorkers, error) {
+func (UnimplementedPoolMinersServiceServer) GetMinersWorkersFromList(context.Context, *MinerAddressesRequest) (*MinersWorkersMap, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMinersWorkersFromList not implemented")
 }
 func (UnimplementedPoolMinersServiceServer) mustEmbedUnimplementedPoolMinersServiceServer() {}
@@ -158,24 +144,6 @@ func _PoolMinersService_GetMiners_Handler(srv interface{}, ctx context.Context, 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PoolMinersServiceServer).GetMiners(ctx, req.(*GetMinersRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _PoolMinersService_GetMinersFromList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MinerAddressesRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PoolMinersServiceServer).GetMinersFromList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/pool_miners.PoolMinersService/GetMinersFromList",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PoolMinersServiceServer).GetMinersFromList(ctx, req.(*MinerAddressesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -230,10 +198,6 @@ var PoolMinersService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetMiners",
 			Handler:    _PoolMinersService_GetMiners_Handler,
-		},
-		{
-			MethodName: "GetMinersFromList",
-			Handler:    _PoolMinersService_GetMinersFromList_Handler,
 		},
 		{
 			MethodName: "GetMinerWorkers",

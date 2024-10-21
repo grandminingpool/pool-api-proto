@@ -24,12 +24,12 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PoolPayoutsServiceClient interface {
 	GetMinerBalance(ctx context.Context, in *pool_miners.MinerAddressRequest, opts ...grpc.CallOption) (*MinerBalance, error)
-	GetMinersBalancesFromList(ctx context.Context, in *pool_miners.MinerAddressesRequest, opts ...grpc.CallOption) (*MinersBalances, error)
+	GetMinersBalancesFromList(ctx context.Context, in *pool_miners.MinerAddressesRequest, opts ...grpc.CallOption) (*MinersBalancesMap, error)
 	GetPayouts(ctx context.Context, in *GetPayoutsRequest, opts ...grpc.CallOption) (*PayoutsList, error)
-	GetPayoutsFromList(ctx context.Context, in *GetPayoutsFromListRequest, opts ...grpc.CallOption) (*Payouts, error)
+	GetPayoutsFromList(ctx context.Context, in *GetPayoutsFromListRequest, opts ...grpc.CallOption) (*PayoutsMap, error)
 	GetBlocks(ctx context.Context, in *GetBlocksRequest, opts ...grpc.CallOption) (*MinedBlocksList, error)
 	GetSoloBlocks(ctx context.Context, in *GetSoloBlocksRequest, opts ...grpc.CallOption) (*MinedSoloBlocksList, error)
-	GetSoloBlocksFromList(ctx context.Context, in *GetSoloBlocksFromListRequest, opts ...grpc.CallOption) (*MinedSoloBlocks, error)
+	GetSoloBlocksFromList(ctx context.Context, in *GetSoloBlocksFromListRequest, opts ...grpc.CallOption) (*MinedSoloBlocksMap, error)
 }
 
 type poolPayoutsServiceClient struct {
@@ -49,8 +49,8 @@ func (c *poolPayoutsServiceClient) GetMinerBalance(ctx context.Context, in *pool
 	return out, nil
 }
 
-func (c *poolPayoutsServiceClient) GetMinersBalancesFromList(ctx context.Context, in *pool_miners.MinerAddressesRequest, opts ...grpc.CallOption) (*MinersBalances, error) {
-	out := new(MinersBalances)
+func (c *poolPayoutsServiceClient) GetMinersBalancesFromList(ctx context.Context, in *pool_miners.MinerAddressesRequest, opts ...grpc.CallOption) (*MinersBalancesMap, error) {
+	out := new(MinersBalancesMap)
 	err := c.cc.Invoke(ctx, "/pool_payouts.PoolPayoutsService/GetMinersBalancesFromList", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -67,8 +67,8 @@ func (c *poolPayoutsServiceClient) GetPayouts(ctx context.Context, in *GetPayout
 	return out, nil
 }
 
-func (c *poolPayoutsServiceClient) GetPayoutsFromList(ctx context.Context, in *GetPayoutsFromListRequest, opts ...grpc.CallOption) (*Payouts, error) {
-	out := new(Payouts)
+func (c *poolPayoutsServiceClient) GetPayoutsFromList(ctx context.Context, in *GetPayoutsFromListRequest, opts ...grpc.CallOption) (*PayoutsMap, error) {
+	out := new(PayoutsMap)
 	err := c.cc.Invoke(ctx, "/pool_payouts.PoolPayoutsService/GetPayoutsFromList", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -94,8 +94,8 @@ func (c *poolPayoutsServiceClient) GetSoloBlocks(ctx context.Context, in *GetSol
 	return out, nil
 }
 
-func (c *poolPayoutsServiceClient) GetSoloBlocksFromList(ctx context.Context, in *GetSoloBlocksFromListRequest, opts ...grpc.CallOption) (*MinedSoloBlocks, error) {
-	out := new(MinedSoloBlocks)
+func (c *poolPayoutsServiceClient) GetSoloBlocksFromList(ctx context.Context, in *GetSoloBlocksFromListRequest, opts ...grpc.CallOption) (*MinedSoloBlocksMap, error) {
+	out := new(MinedSoloBlocksMap)
 	err := c.cc.Invoke(ctx, "/pool_payouts.PoolPayoutsService/GetSoloBlocksFromList", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -108,12 +108,12 @@ func (c *poolPayoutsServiceClient) GetSoloBlocksFromList(ctx context.Context, in
 // for forward compatibility
 type PoolPayoutsServiceServer interface {
 	GetMinerBalance(context.Context, *pool_miners.MinerAddressRequest) (*MinerBalance, error)
-	GetMinersBalancesFromList(context.Context, *pool_miners.MinerAddressesRequest) (*MinersBalances, error)
+	GetMinersBalancesFromList(context.Context, *pool_miners.MinerAddressesRequest) (*MinersBalancesMap, error)
 	GetPayouts(context.Context, *GetPayoutsRequest) (*PayoutsList, error)
-	GetPayoutsFromList(context.Context, *GetPayoutsFromListRequest) (*Payouts, error)
+	GetPayoutsFromList(context.Context, *GetPayoutsFromListRequest) (*PayoutsMap, error)
 	GetBlocks(context.Context, *GetBlocksRequest) (*MinedBlocksList, error)
 	GetSoloBlocks(context.Context, *GetSoloBlocksRequest) (*MinedSoloBlocksList, error)
-	GetSoloBlocksFromList(context.Context, *GetSoloBlocksFromListRequest) (*MinedSoloBlocks, error)
+	GetSoloBlocksFromList(context.Context, *GetSoloBlocksFromListRequest) (*MinedSoloBlocksMap, error)
 	mustEmbedUnimplementedPoolPayoutsServiceServer()
 }
 
@@ -124,13 +124,13 @@ type UnimplementedPoolPayoutsServiceServer struct {
 func (UnimplementedPoolPayoutsServiceServer) GetMinerBalance(context.Context, *pool_miners.MinerAddressRequest) (*MinerBalance, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMinerBalance not implemented")
 }
-func (UnimplementedPoolPayoutsServiceServer) GetMinersBalancesFromList(context.Context, *pool_miners.MinerAddressesRequest) (*MinersBalances, error) {
+func (UnimplementedPoolPayoutsServiceServer) GetMinersBalancesFromList(context.Context, *pool_miners.MinerAddressesRequest) (*MinersBalancesMap, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMinersBalancesFromList not implemented")
 }
 func (UnimplementedPoolPayoutsServiceServer) GetPayouts(context.Context, *GetPayoutsRequest) (*PayoutsList, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPayouts not implemented")
 }
-func (UnimplementedPoolPayoutsServiceServer) GetPayoutsFromList(context.Context, *GetPayoutsFromListRequest) (*Payouts, error) {
+func (UnimplementedPoolPayoutsServiceServer) GetPayoutsFromList(context.Context, *GetPayoutsFromListRequest) (*PayoutsMap, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPayoutsFromList not implemented")
 }
 func (UnimplementedPoolPayoutsServiceServer) GetBlocks(context.Context, *GetBlocksRequest) (*MinedBlocksList, error) {
@@ -139,7 +139,7 @@ func (UnimplementedPoolPayoutsServiceServer) GetBlocks(context.Context, *GetBloc
 func (UnimplementedPoolPayoutsServiceServer) GetSoloBlocks(context.Context, *GetSoloBlocksRequest) (*MinedSoloBlocksList, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSoloBlocks not implemented")
 }
-func (UnimplementedPoolPayoutsServiceServer) GetSoloBlocksFromList(context.Context, *GetSoloBlocksFromListRequest) (*MinedSoloBlocks, error) {
+func (UnimplementedPoolPayoutsServiceServer) GetSoloBlocksFromList(context.Context, *GetSoloBlocksFromListRequest) (*MinedSoloBlocksMap, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSoloBlocksFromList not implemented")
 }
 func (UnimplementedPoolPayoutsServiceServer) mustEmbedUnimplementedPoolPayoutsServiceServer() {}

@@ -14,7 +14,7 @@ message MinerBalance {
     uint64 balance = 1;
 }
 
-message MinersBalances {
+message MinersBalancesMap {
     map<string, MinerBalance> balances = 1;
 }
 
@@ -50,12 +50,16 @@ message Payout {
     google.protobuf.Timestamp paid_at = 4;
 }
 
-message PayoutsList {
+message Payouts {
     repeated Payout payouts = 1;
+}
+
+message PayoutsList {
+    Payouts payouts = 1;
     pagination.PaginationResponse pagination = 2;
 }
 
-message Payouts {
+message PayoutsMap {
     map<string, Payouts> payouts = 1;
 }
 
@@ -138,23 +142,27 @@ message MinedSoloBlock {
     google.protobuf.Timestamp mined_at = 7;
 }
 
-message MinedSoloBlocksList {
+message MinedSoloBlocks {
     repeated MinedSoloBlock blocks = 1;
+}
+
+message MinedSoloBlocksList {
+    MinedSoloBlocks blocks = 1;
     pagination.PaginationResponse pagination = 2;
 }
 
-message MinedSoloBlocks {
-    map<string, MinedSoloBlock> blocks = 1;
+message MinedSoloBlocksMap {
+    map<string, MinedSoloBlocks> blocks = 1;
 }
 
 service PoolPayoutsService {
     rpc GetMinerBalance(pool_miners.MinerAddressRequest) returns (MinerBalance);
-    rpc GetMinersBalancesFromList(pool_miners.MinerAddressesRequest) returns (MinersBalances);
+    rpc GetMinersBalancesFromList(pool_miners.MinerAddressesRequest) returns (MinersBalancesMap);
     
     rpc GetPayouts(GetPayoutsRequest) returns (PayoutsList);
-    rpc GetPayoutsFromList(GetPayoutsFromListRequest) returns (Payouts);
+    rpc GetPayoutsFromList(GetPayoutsFromListRequest) returns (PayoutsMap);
     
     rpc GetBlocks(GetBlocksRequest) returns (MinedBlocksList);
     rpc GetSoloBlocks(GetSoloBlocksRequest) returns (MinedSoloBlocksList);
-    rpc GetSoloBlocksFromList(GetSoloBlocksFromListRequest) returns (MinedSoloBlocks);
+    rpc GetSoloBlocksFromList(GetSoloBlocksFromListRequest) returns (MinedSoloBlocksMap);
 }
