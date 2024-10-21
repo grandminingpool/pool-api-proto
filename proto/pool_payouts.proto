@@ -19,7 +19,7 @@ message MinersBalances {
 }
 
 message PayoutsFilters {
-    optional string address = 1;
+    optional string miner = 1;
     optional string tx_hash = 2;
     optional filters.UInt64RangeFilter amount = 3;
     optional filters.DateFilter paid_at = 4;
