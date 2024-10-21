@@ -12,7 +12,6 @@ import "utils/filters.proto";
 
 message MinerBalance {
     uint64 balance = 1;
-    google.protobuf.Timestamp last_awarded_at = 2;
 }
 
 message MinersBalances {
