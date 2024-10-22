@@ -7,9 +7,10 @@ option go_package = "github.com/grandminingpool/pool-api-proto/generated/charts;
 import "google/protobuf/timestamp.proto";
 
 enum ChartPeriod {
-    Day = 0;
-    Week = 1;
-    Month = 2;
+    Hour = 0;
+    Day = 1;
+    Week = 2;
+    Month = 3;
 }
 
 message GetPoolStatsRequest {
