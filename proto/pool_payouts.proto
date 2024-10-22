@@ -105,7 +105,7 @@ message MinedSoloBlocksSorts {
     optional sorts.SortOrder miner = 1;
     optional sorts.SortOrder miner_hashrate = 2;
     optional sorts.SortOrder block_hash = 3;
-    optional sorts.SortOrder block_reward = 4;
+    optional sorts.SortOrder reward = 4;
     optional sorts.SortOrder tx_hash = 5;
     optional sorts.SortOrder share_difficulty = 6;
     optional sorts.SortOrder mined_at = 7;
@@ -115,7 +115,7 @@ message MinedSoloBlocksFilters {
     optional string miner = 1;
     optional filters.BigIntRangeFilter miner_hashrate = 2;
     optional string block_hash = 3;
-    optional filters.UInt64RangeFilter block_reward = 4;
+    optional filters.UInt64RangeFilter reward = 4;
     optional string tx_hash = 5;
     optional filters.UInt64RangeFilter share_difficulty = 6;
     optional filters.DateFilter mined_at = 7;
@@ -136,7 +136,7 @@ message MinedSoloBlock {
     string miner = 1;
     bytes miner_hashrate = 2;
     string block_hash = 3;
-    uint64 block_reward = 4;
+    uint64 reward = 4;
     string tx_hash = 5;
     uint64 share_difficulty = 6;
     google.protobuf.Timestamp mined_at = 7;
