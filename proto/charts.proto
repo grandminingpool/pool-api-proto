@@ -50,7 +50,7 @@ message GetRoundsRequest {
 message RoundsPoint {
     uint32 rounds_count = 1;
     uint32 miners_count = 2;
-    uint64 avg_round_interval = 3;
+    double avg_round_interval = 3;
     google.protobuf.Timestamp date = 4;
 }
 
