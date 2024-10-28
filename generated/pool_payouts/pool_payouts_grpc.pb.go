@@ -23,7 +23,6 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PoolPayoutsServiceClient interface {
-	GetMinerBalance(ctx context.Context, in *pool_miners.MinerAddressRequest, opts ...grpc.CallOption) (*MinerBalance, error)
 	GetMinersBalancesFromList(ctx context.Context, in *pool_miners.MinerAddressesRequest, opts ...grpc.CallOption) (*MinersBalancesMap, error)
 	GetPayouts(ctx context.Context, in *GetPayoutsRequest, opts ...grpc.CallOption) (*PayoutsList, error)
 	GetPayoutsFromList(ctx context.Context, in *GetPayoutsFromListRequest, opts ...grpc.CallOption) (*PayoutsMap, error)
@@ -38,15 +37,6 @@ type poolPayoutsServiceClient struct {
 
 func NewPoolPayoutsServiceClient(cc grpc.ClientConnInterface) PoolPayoutsServiceClient {
 	return &poolPayoutsServiceClient{cc}
-}
-
-func (c *poolPayoutsServiceClient) GetMinerBalance(ctx context.Context, in *pool_miners.MinerAddressRequest, opts ...grpc.CallOption) (*MinerBalance, error) {
-	out := new(MinerBalance)
-	err := c.cc.Invoke(ctx, "/pool_payouts.PoolPayoutsService/GetMinerBalance", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *poolPayoutsServiceClient) GetMinersBalancesFromList(ctx context.Context, in *pool_miners.MinerAddressesRequest, opts ...grpc.CallOption) (*MinersBalancesMap, error) {
@@ -107,7 +97,6 @@ func (c *poolPayoutsServiceClient) GetSoloBlocksFromList(ctx context.Context, in
 // All implementations must embed UnimplementedPoolPayoutsServiceServer
 // for forward compatibility
 type PoolPayoutsServiceServer interface {
-	GetMinerBalance(context.Context, *pool_miners.MinerAddressRequest) (*MinerBalance, error)
 	GetMinersBalancesFromList(context.Context, *pool_miners.MinerAddressesRequest) (*MinersBalancesMap, error)
 	GetPayouts(context.Context, *GetPayoutsRequest) (*PayoutsList, error)
 	GetPayoutsFromList(context.Context, *GetPayoutsFromListRequest) (*PayoutsMap, error)
@@ -121,9 +110,6 @@ type PoolPayoutsServiceServer interface {
 type UnimplementedPoolPayoutsServiceServer struct {
 }
 
-func (UnimplementedPoolPayoutsServiceServer) GetMinerBalance(context.Context, *pool_miners.MinerAddressRequest) (*MinerBalance, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetMinerBalance not implemented")
-}
 func (UnimplementedPoolPayoutsServiceServer) GetMinersBalancesFromList(context.Context, *pool_miners.MinerAddressesRequest) (*MinersBalancesMap, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMinersBalancesFromList not implemented")
 }
@@ -153,24 +139,6 @@ type UnsafePoolPayoutsServiceServer interface {
 
 func RegisterPoolPayoutsServiceServer(s grpc.ServiceRegistrar, srv PoolPayoutsServiceServer) {
 	s.RegisterService(&PoolPayoutsService_ServiceDesc, srv)
-}
-
-func _PoolPayoutsService_GetMinerBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(pool_miners.MinerAddressRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PoolPayoutsServiceServer).GetMinerBalance(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/pool_payouts.PoolPayoutsService/GetMinerBalance",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PoolPayoutsServiceServer).GetMinerBalance(ctx, req.(*pool_miners.MinerAddressRequest))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _PoolPayoutsService_GetMinersBalancesFromList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -288,10 +256,6 @@ var PoolPayoutsService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "pool_payouts.PoolPayoutsService",
 	HandlerType: (*PoolPayoutsServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "GetMinerBalance",
-			Handler:    _PoolPayoutsService_GetMinerBalance_Handler,
-		},
 		{
 			MethodName: "GetMinersBalancesFromList",
 			Handler:    _PoolPayoutsService_GetMinersBalancesFromList_Handler,

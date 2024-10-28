@@ -24,10 +24,10 @@ message ValidateAddressResponse {
 message MinersFilters {
     optional string address = 1;
     optional filters.BigIntRangeFilter hashrate = 2;
-    optional filters.UInt32RangeFilter workers_count = 3;
-    optional filters.UInt32RangeFilter blocks_count = 4;
-    optional filters.UInt32RangeFilter solo_blocks_count = 5;
-    optional filters.DateFilter joined_at = 6;
+    optional filters.UInt32Filter workers_count = 3;
+    optional filters.UInt32Filter blocks_count = 4;
+    optional filters.UInt32Filter solo_blocks_count = 5;
+    optional filters.DateTimeRangeFilter joined_at = 6;
 }
 
 message MinersSorts {

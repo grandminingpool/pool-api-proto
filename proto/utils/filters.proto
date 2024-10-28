@@ -6,31 +6,29 @@ option go_package = "github.com/grandminingpool/pool-api-proto/generated/utils/f
 
 import "google/protobuf/timestamp.proto";
 
-message UInt32RangeFilter {
+message UInt32Range {
+  optional uint32 min = 2;
+  optional uint32 max = 3;
+}
+
+message UInt32Filter {
   oneof operators {
     uint32 equals = 1;
-    uint32 min = 2;
-    uint32 max = 3;
+    UInt32Range range = 2;
   }
 }
 
 message UInt64RangeFilter {
-  oneof operators {
-    uint64 min = 1;
-    uint64 max = 2;
-  }
+  optional uint64 min = 1;
+  optional uint64 max = 2;
 }
 
 message BigIntRangeFilter {
-  oneof operators {
-    bytes min = 1;
-    bytes max = 2;
-  }
+  optional bytes min = 1;
+  optional bytes max = 2;
 }
 
-message DateFilter {
-  oneof operators {
-    google.protobuf.Timestamp start = 2;
-    google.protobuf.Timestamp end = 3;
-  }
+message DateTimeRangeFilter {
+  optional google.protobuf.Timestamp start = 2;
+  optional google.protobuf.Timestamp end = 3;
 }

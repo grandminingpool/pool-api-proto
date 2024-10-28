@@ -21,21 +21,17 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type UInt32RangeFilter struct {
+type UInt32Range struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// Types that are assignable to Operators:
-	//
-	//	*UInt32RangeFilter_Equals
-	//	*UInt32RangeFilter_Min
-	//	*UInt32RangeFilter_Max
-	Operators isUInt32RangeFilter_Operators `protobuf_oneof:"operators"`
+	Min *uint32 `protobuf:"varint,2,opt,name=min,proto3,oneof" json:"min,omitempty"`
+	Max *uint32 `protobuf:"varint,3,opt,name=max,proto3,oneof" json:"max,omitempty"`
 }
 
-func (x *UInt32RangeFilter) Reset() {
-	*x = UInt32RangeFilter{}
+func (x *UInt32Range) Reset() {
+	*x = UInt32Range{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_filters_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -43,13 +39,13 @@ func (x *UInt32RangeFilter) Reset() {
 	}
 }
 
-func (x *UInt32RangeFilter) String() string {
+func (x *UInt32Range) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UInt32RangeFilter) ProtoMessage() {}
+func (*UInt32Range) ProtoMessage() {}
 
-func (x *UInt32RangeFilter) ProtoReflect() protoreflect.Message {
+func (x *UInt32Range) ProtoReflect() protoreflect.Message {
 	mi := &file_filters_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -61,77 +57,119 @@ func (x *UInt32RangeFilter) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UInt32RangeFilter.ProtoReflect.Descriptor instead.
-func (*UInt32RangeFilter) Descriptor() ([]byte, []int) {
+// Deprecated: Use UInt32Range.ProtoReflect.Descriptor instead.
+func (*UInt32Range) Descriptor() ([]byte, []int) {
 	return file_filters_proto_rawDescGZIP(), []int{0}
 }
 
-func (m *UInt32RangeFilter) GetOperators() isUInt32RangeFilter_Operators {
-	if m != nil {
-		return m.Operators
-	}
-	return nil
-}
-
-func (x *UInt32RangeFilter) GetEquals() uint32 {
-	if x, ok := x.GetOperators().(*UInt32RangeFilter_Equals); ok {
-		return x.Equals
+func (x *UInt32Range) GetMin() uint32 {
+	if x != nil && x.Min != nil {
+		return *x.Min
 	}
 	return 0
 }
 
-func (x *UInt32RangeFilter) GetMin() uint32 {
-	if x, ok := x.GetOperators().(*UInt32RangeFilter_Min); ok {
-		return x.Min
+func (x *UInt32Range) GetMax() uint32 {
+	if x != nil && x.Max != nil {
+		return *x.Max
 	}
 	return 0
 }
 
-func (x *UInt32RangeFilter) GetMax() uint32 {
-	if x, ok := x.GetOperators().(*UInt32RangeFilter_Max); ok {
-		return x.Max
-	}
-	return 0
-}
-
-type isUInt32RangeFilter_Operators interface {
-	isUInt32RangeFilter_Operators()
-}
-
-type UInt32RangeFilter_Equals struct {
-	Equals uint32 `protobuf:"varint,1,opt,name=equals,proto3,oneof"`
-}
-
-type UInt32RangeFilter_Min struct {
-	Min uint32 `protobuf:"varint,2,opt,name=min,proto3,oneof"`
-}
-
-type UInt32RangeFilter_Max struct {
-	Max uint32 `protobuf:"varint,3,opt,name=max,proto3,oneof"`
-}
-
-func (*UInt32RangeFilter_Equals) isUInt32RangeFilter_Operators() {}
-
-func (*UInt32RangeFilter_Min) isUInt32RangeFilter_Operators() {}
-
-func (*UInt32RangeFilter_Max) isUInt32RangeFilter_Operators() {}
-
-type UInt64RangeFilter struct {
+type UInt32Filter struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Operators:
 	//
-	//	*UInt64RangeFilter_Min
-	//	*UInt64RangeFilter_Max
-	Operators isUInt64RangeFilter_Operators `protobuf_oneof:"operators"`
+	//	*UInt32Filter_Equals
+	//	*UInt32Filter_Range
+	Operators isUInt32Filter_Operators `protobuf_oneof:"operators"`
+}
+
+func (x *UInt32Filter) Reset() {
+	*x = UInt32Filter{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_filters_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UInt32Filter) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UInt32Filter) ProtoMessage() {}
+
+func (x *UInt32Filter) ProtoReflect() protoreflect.Message {
+	mi := &file_filters_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UInt32Filter.ProtoReflect.Descriptor instead.
+func (*UInt32Filter) Descriptor() ([]byte, []int) {
+	return file_filters_proto_rawDescGZIP(), []int{1}
+}
+
+func (m *UInt32Filter) GetOperators() isUInt32Filter_Operators {
+	if m != nil {
+		return m.Operators
+	}
+	return nil
+}
+
+func (x *UInt32Filter) GetEquals() uint32 {
+	if x, ok := x.GetOperators().(*UInt32Filter_Equals); ok {
+		return x.Equals
+	}
+	return 0
+}
+
+func (x *UInt32Filter) GetRange() *UInt32Range {
+	if x, ok := x.GetOperators().(*UInt32Filter_Range); ok {
+		return x.Range
+	}
+	return nil
+}
+
+type isUInt32Filter_Operators interface {
+	isUInt32Filter_Operators()
+}
+
+type UInt32Filter_Equals struct {
+	Equals uint32 `protobuf:"varint,1,opt,name=equals,proto3,oneof"`
+}
+
+type UInt32Filter_Range struct {
+	Range *UInt32Range `protobuf:"bytes,2,opt,name=range,proto3,oneof"`
+}
+
+func (*UInt32Filter_Equals) isUInt32Filter_Operators() {}
+
+func (*UInt32Filter_Range) isUInt32Filter_Operators() {}
+
+type UInt64RangeFilter struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Min *uint64 `protobuf:"varint,1,opt,name=min,proto3,oneof" json:"min,omitempty"`
+	Max *uint64 `protobuf:"varint,2,opt,name=max,proto3,oneof" json:"max,omitempty"`
 }
 
 func (x *UInt64RangeFilter) Reset() {
 	*x = UInt64RangeFilter{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_filters_proto_msgTypes[1]
+		mi := &file_filters_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -144,7 +182,7 @@ func (x *UInt64RangeFilter) String() string {
 func (*UInt64RangeFilter) ProtoMessage() {}
 
 func (x *UInt64RangeFilter) ProtoReflect() protoreflect.Message {
-	mi := &file_filters_proto_msgTypes[1]
+	mi := &file_filters_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -157,62 +195,36 @@ func (x *UInt64RangeFilter) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UInt64RangeFilter.ProtoReflect.Descriptor instead.
 func (*UInt64RangeFilter) Descriptor() ([]byte, []int) {
-	return file_filters_proto_rawDescGZIP(), []int{1}
-}
-
-func (m *UInt64RangeFilter) GetOperators() isUInt64RangeFilter_Operators {
-	if m != nil {
-		return m.Operators
-	}
-	return nil
+	return file_filters_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *UInt64RangeFilter) GetMin() uint64 {
-	if x, ok := x.GetOperators().(*UInt64RangeFilter_Min); ok {
-		return x.Min
+	if x != nil && x.Min != nil {
+		return *x.Min
 	}
 	return 0
 }
 
 func (x *UInt64RangeFilter) GetMax() uint64 {
-	if x, ok := x.GetOperators().(*UInt64RangeFilter_Max); ok {
-		return x.Max
+	if x != nil && x.Max != nil {
+		return *x.Max
 	}
 	return 0
 }
-
-type isUInt64RangeFilter_Operators interface {
-	isUInt64RangeFilter_Operators()
-}
-
-type UInt64RangeFilter_Min struct {
-	Min uint64 `protobuf:"varint,1,opt,name=min,proto3,oneof"`
-}
-
-type UInt64RangeFilter_Max struct {
-	Max uint64 `protobuf:"varint,2,opt,name=max,proto3,oneof"`
-}
-
-func (*UInt64RangeFilter_Min) isUInt64RangeFilter_Operators() {}
-
-func (*UInt64RangeFilter_Max) isUInt64RangeFilter_Operators() {}
 
 type BigIntRangeFilter struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// Types that are assignable to Operators:
-	//
-	//	*BigIntRangeFilter_Min
-	//	*BigIntRangeFilter_Max
-	Operators isBigIntRangeFilter_Operators `protobuf_oneof:"operators"`
+	Min []byte `protobuf:"bytes,1,opt,name=min,proto3,oneof" json:"min,omitempty"`
+	Max []byte `protobuf:"bytes,2,opt,name=max,proto3,oneof" json:"max,omitempty"`
 }
 
 func (x *BigIntRangeFilter) Reset() {
 	*x = BigIntRangeFilter{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_filters_proto_msgTypes[2]
+		mi := &file_filters_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -225,7 +237,7 @@ func (x *BigIntRangeFilter) String() string {
 func (*BigIntRangeFilter) ProtoMessage() {}
 
 func (x *BigIntRangeFilter) ProtoReflect() protoreflect.Message {
-	mi := &file_filters_proto_msgTypes[2]
+	mi := &file_filters_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -238,75 +250,49 @@ func (x *BigIntRangeFilter) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BigIntRangeFilter.ProtoReflect.Descriptor instead.
 func (*BigIntRangeFilter) Descriptor() ([]byte, []int) {
-	return file_filters_proto_rawDescGZIP(), []int{2}
-}
-
-func (m *BigIntRangeFilter) GetOperators() isBigIntRangeFilter_Operators {
-	if m != nil {
-		return m.Operators
-	}
-	return nil
+	return file_filters_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *BigIntRangeFilter) GetMin() []byte {
-	if x, ok := x.GetOperators().(*BigIntRangeFilter_Min); ok {
+	if x != nil {
 		return x.Min
 	}
 	return nil
 }
 
 func (x *BigIntRangeFilter) GetMax() []byte {
-	if x, ok := x.GetOperators().(*BigIntRangeFilter_Max); ok {
+	if x != nil {
 		return x.Max
 	}
 	return nil
 }
 
-type isBigIntRangeFilter_Operators interface {
-	isBigIntRangeFilter_Operators()
-}
-
-type BigIntRangeFilter_Min struct {
-	Min []byte `protobuf:"bytes,1,opt,name=min,proto3,oneof"`
-}
-
-type BigIntRangeFilter_Max struct {
-	Max []byte `protobuf:"bytes,2,opt,name=max,proto3,oneof"`
-}
-
-func (*BigIntRangeFilter_Min) isBigIntRangeFilter_Operators() {}
-
-func (*BigIntRangeFilter_Max) isBigIntRangeFilter_Operators() {}
-
-type DateFilter struct {
+type DateTimeRangeFilter struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// Types that are assignable to Operators:
-	//
-	//	*DateFilter_Start
-	//	*DateFilter_End
-	Operators isDateFilter_Operators `protobuf_oneof:"operators"`
+	Start *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=start,proto3,oneof" json:"start,omitempty"`
+	End   *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=end,proto3,oneof" json:"end,omitempty"`
 }
 
-func (x *DateFilter) Reset() {
-	*x = DateFilter{}
+func (x *DateTimeRangeFilter) Reset() {
+	*x = DateTimeRangeFilter{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_filters_proto_msgTypes[3]
+		mi := &file_filters_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
 }
 
-func (x *DateFilter) String() string {
+func (x *DateTimeRangeFilter) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*DateFilter) ProtoMessage() {}
+func (*DateTimeRangeFilter) ProtoMessage() {}
 
-func (x *DateFilter) ProtoReflect() protoreflect.Message {
-	mi := &file_filters_proto_msgTypes[3]
+func (x *DateTimeRangeFilter) ProtoReflect() protoreflect.Message {
+	mi := &file_filters_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -317,47 +303,24 @@ func (x *DateFilter) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DateFilter.ProtoReflect.Descriptor instead.
-func (*DateFilter) Descriptor() ([]byte, []int) {
-	return file_filters_proto_rawDescGZIP(), []int{3}
+// Deprecated: Use DateTimeRangeFilter.ProtoReflect.Descriptor instead.
+func (*DateTimeRangeFilter) Descriptor() ([]byte, []int) {
+	return file_filters_proto_rawDescGZIP(), []int{4}
 }
 
-func (m *DateFilter) GetOperators() isDateFilter_Operators {
-	if m != nil {
-		return m.Operators
-	}
-	return nil
-}
-
-func (x *DateFilter) GetStart() *timestamppb.Timestamp {
-	if x, ok := x.GetOperators().(*DateFilter_Start); ok {
+func (x *DateTimeRangeFilter) GetStart() *timestamppb.Timestamp {
+	if x != nil {
 		return x.Start
 	}
 	return nil
 }
 
-func (x *DateFilter) GetEnd() *timestamppb.Timestamp {
-	if x, ok := x.GetOperators().(*DateFilter_End); ok {
+func (x *DateTimeRangeFilter) GetEnd() *timestamppb.Timestamp {
+	if x != nil {
 		return x.End
 	}
 	return nil
 }
-
-type isDateFilter_Operators interface {
-	isDateFilter_Operators()
-}
-
-type DateFilter_Start struct {
-	Start *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=start,proto3,oneof"`
-}
-
-type DateFilter_End struct {
-	End *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=end,proto3,oneof"`
-}
-
-func (*DateFilter_Start) isDateFilter_Operators() {}
-
-func (*DateFilter_End) isDateFilter_Operators() {}
 
 var File_filters_proto protoreflect.FileDescriptor
 
@@ -365,36 +328,43 @@ var file_filters_proto_rawDesc = []byte{
 	0x0a, 0x0d, 0x66, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12,
 	0x07, 0x66, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x73, 0x1a, 0x1f, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65,
 	0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74,
-	0x61, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x62, 0x0a, 0x11, 0x55, 0x49, 0x6e,
-	0x74, 0x33, 0x32, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x46, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x12, 0x18,
-	0x0a, 0x06, 0x65, 0x71, 0x75, 0x61, 0x6c, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x48, 0x00,
-	0x52, 0x06, 0x65, 0x71, 0x75, 0x61, 0x6c, 0x73, 0x12, 0x12, 0x0a, 0x03, 0x6d, 0x69, 0x6e, 0x18,
-	0x02, 0x20, 0x01, 0x28, 0x0d, 0x48, 0x00, 0x52, 0x03, 0x6d, 0x69, 0x6e, 0x12, 0x12, 0x0a, 0x03,
-	0x6d, 0x61, 0x78, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0d, 0x48, 0x00, 0x52, 0x03, 0x6d, 0x61, 0x78,
-	0x42, 0x0b, 0x0a, 0x09, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x73, 0x22, 0x48, 0x0a,
-	0x11, 0x55, 0x49, 0x6e, 0x74, 0x36, 0x34, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x46, 0x69, 0x6c, 0x74,
-	0x65, 0x72, 0x12, 0x12, 0x0a, 0x03, 0x6d, 0x69, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x48,
-	0x00, 0x52, 0x03, 0x6d, 0x69, 0x6e, 0x12, 0x12, 0x0a, 0x03, 0x6d, 0x61, 0x78, 0x18, 0x02, 0x20,
-	0x01, 0x28, 0x04, 0x48, 0x00, 0x52, 0x03, 0x6d, 0x61, 0x78, 0x42, 0x0b, 0x0a, 0x09, 0x6f, 0x70,
-	0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x73, 0x22, 0x48, 0x0a, 0x11, 0x42, 0x69, 0x67, 0x49, 0x6e,
-	0x74, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x46, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x12, 0x12, 0x0a, 0x03,
-	0x6d, 0x69, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x48, 0x00, 0x52, 0x03, 0x6d, 0x69, 0x6e,
-	0x12, 0x12, 0x0a, 0x03, 0x6d, 0x61, 0x78, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0c, 0x48, 0x00, 0x52,
-	0x03, 0x6d, 0x61, 0x78, 0x42, 0x0b, 0x0a, 0x09, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72,
-	0x73, 0x22, 0x7d, 0x0a, 0x0a, 0x44, 0x61, 0x74, 0x65, 0x46, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x12,
-	0x32, 0x0a, 0x05, 0x73, 0x74, 0x61, 0x72, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a,
-	0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66,
-	0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x48, 0x00, 0x52, 0x05, 0x73, 0x74,
-	0x61, 0x72, 0x74, 0x12, 0x2e, 0x0a, 0x03, 0x65, 0x6e, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62,
-	0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x48, 0x00, 0x52, 0x03,
-	0x65, 0x6e, 0x64, 0x42, 0x0b, 0x0a, 0x09, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x73,
-	0x42, 0x50, 0x5a, 0x4e, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x67,
-	0x72, 0x61, 0x6e, 0x64, 0x6d, 0x69, 0x6e, 0x69, 0x6e, 0x67, 0x70, 0x6f, 0x6f, 0x6c, 0x2f, 0x70,
-	0x6f, 0x6f, 0x6c, 0x2d, 0x61, 0x70, 0x69, 0x2d, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x67, 0x65,
-	0x6e, 0x65, 0x72, 0x61, 0x74, 0x65, 0x64, 0x2f, 0x75, 0x74, 0x69, 0x6c, 0x73, 0x2f, 0x66, 0x69,
-	0x6c, 0x74, 0x65, 0x72, 0x73, 0x3b, 0x66, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x73, 0x50, 0x72, 0x6f,
-	0x74, 0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x61, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x4b, 0x0a, 0x0b, 0x55, 0x49, 0x6e,
+	0x74, 0x33, 0x32, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x12, 0x15, 0x0a, 0x03, 0x6d, 0x69, 0x6e, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x0d, 0x48, 0x00, 0x52, 0x03, 0x6d, 0x69, 0x6e, 0x88, 0x01, 0x01, 0x12,
+	0x15, 0x0a, 0x03, 0x6d, 0x61, 0x78, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0d, 0x48, 0x01, 0x52, 0x03,
+	0x6d, 0x61, 0x78, 0x88, 0x01, 0x01, 0x42, 0x06, 0x0a, 0x04, 0x5f, 0x6d, 0x69, 0x6e, 0x42, 0x06,
+	0x0a, 0x04, 0x5f, 0x6d, 0x61, 0x78, 0x22, 0x63, 0x0a, 0x0c, 0x55, 0x49, 0x6e, 0x74, 0x33, 0x32,
+	0x46, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x12, 0x18, 0x0a, 0x06, 0x65, 0x71, 0x75, 0x61, 0x6c, 0x73,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x48, 0x00, 0x52, 0x06, 0x65, 0x71, 0x75, 0x61, 0x6c, 0x73,
+	0x12, 0x2c, 0x0a, 0x05, 0x72, 0x61, 0x6e, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x14, 0x2e, 0x66, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x73, 0x2e, 0x55, 0x49, 0x6e, 0x74, 0x33, 0x32,
+	0x52, 0x61, 0x6e, 0x67, 0x65, 0x48, 0x00, 0x52, 0x05, 0x72, 0x61, 0x6e, 0x67, 0x65, 0x42, 0x0b,
+	0x0a, 0x09, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x73, 0x22, 0x51, 0x0a, 0x11, 0x55,
+	0x49, 0x6e, 0x74, 0x36, 0x34, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x46, 0x69, 0x6c, 0x74, 0x65, 0x72,
+	0x12, 0x15, 0x0a, 0x03, 0x6d, 0x69, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x48, 0x00, 0x52,
+	0x03, 0x6d, 0x69, 0x6e, 0x88, 0x01, 0x01, 0x12, 0x15, 0x0a, 0x03, 0x6d, 0x61, 0x78, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x04, 0x48, 0x01, 0x52, 0x03, 0x6d, 0x61, 0x78, 0x88, 0x01, 0x01, 0x42, 0x06,
+	0x0a, 0x04, 0x5f, 0x6d, 0x69, 0x6e, 0x42, 0x06, 0x0a, 0x04, 0x5f, 0x6d, 0x61, 0x78, 0x22, 0x51,
+	0x0a, 0x11, 0x42, 0x69, 0x67, 0x49, 0x6e, 0x74, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x46, 0x69, 0x6c,
+	0x74, 0x65, 0x72, 0x12, 0x15, 0x0a, 0x03, 0x6d, 0x69, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c,
+	0x48, 0x00, 0x52, 0x03, 0x6d, 0x69, 0x6e, 0x88, 0x01, 0x01, 0x12, 0x15, 0x0a, 0x03, 0x6d, 0x61,
+	0x78, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0c, 0x48, 0x01, 0x52, 0x03, 0x6d, 0x61, 0x78, 0x88, 0x01,
+	0x01, 0x42, 0x06, 0x0a, 0x04, 0x5f, 0x6d, 0x69, 0x6e, 0x42, 0x06, 0x0a, 0x04, 0x5f, 0x6d, 0x61,
+	0x78, 0x22, 0x91, 0x01, 0x0a, 0x13, 0x44, 0x61, 0x74, 0x65, 0x54, 0x69, 0x6d, 0x65, 0x52, 0x61,
+	0x6e, 0x67, 0x65, 0x46, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x12, 0x35, 0x0a, 0x05, 0x73, 0x74, 0x61,
+	0x72, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c,
+	0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73,
+	0x74, 0x61, 0x6d, 0x70, 0x48, 0x00, 0x52, 0x05, 0x73, 0x74, 0x61, 0x72, 0x74, 0x88, 0x01, 0x01,
+	0x12, 0x31, 0x0a, 0x03, 0x65, 0x6e, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e,
+	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e,
+	0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x48, 0x01, 0x52, 0x03, 0x65, 0x6e, 0x64,
+	0x88, 0x01, 0x01, 0x42, 0x08, 0x0a, 0x06, 0x5f, 0x73, 0x74, 0x61, 0x72, 0x74, 0x42, 0x06, 0x0a,
+	0x04, 0x5f, 0x65, 0x6e, 0x64, 0x42, 0x50, 0x5a, 0x4e, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e,
+	0x63, 0x6f, 0x6d, 0x2f, 0x67, 0x72, 0x61, 0x6e, 0x64, 0x6d, 0x69, 0x6e, 0x69, 0x6e, 0x67, 0x70,
+	0x6f, 0x6f, 0x6c, 0x2f, 0x70, 0x6f, 0x6f, 0x6c, 0x2d, 0x61, 0x70, 0x69, 0x2d, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x2f, 0x67, 0x65, 0x6e, 0x65, 0x72, 0x61, 0x74, 0x65, 0x64, 0x2f, 0x75, 0x74, 0x69,
+	0x6c, 0x73, 0x2f, 0x66, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x73, 0x3b, 0x66, 0x69, 0x6c, 0x74, 0x65,
+	0x72, 0x73, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -409,22 +379,24 @@ func file_filters_proto_rawDescGZIP() []byte {
 	return file_filters_proto_rawDescData
 }
 
-var file_filters_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_filters_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_filters_proto_goTypes = []interface{}{
-	(*UInt32RangeFilter)(nil),     // 0: filters.UInt32RangeFilter
-	(*UInt64RangeFilter)(nil),     // 1: filters.UInt64RangeFilter
-	(*BigIntRangeFilter)(nil),     // 2: filters.BigIntRangeFilter
-	(*DateFilter)(nil),            // 3: filters.DateFilter
-	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
+	(*UInt32Range)(nil),           // 0: filters.UInt32Range
+	(*UInt32Filter)(nil),          // 1: filters.UInt32Filter
+	(*UInt64RangeFilter)(nil),     // 2: filters.UInt64RangeFilter
+	(*BigIntRangeFilter)(nil),     // 3: filters.BigIntRangeFilter
+	(*DateTimeRangeFilter)(nil),   // 4: filters.DateTimeRangeFilter
+	(*timestamppb.Timestamp)(nil), // 5: google.protobuf.Timestamp
 }
 var file_filters_proto_depIdxs = []int32{
-	4, // 0: filters.DateFilter.start:type_name -> google.protobuf.Timestamp
-	4, // 1: filters.DateFilter.end:type_name -> google.protobuf.Timestamp
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	0, // 0: filters.UInt32Filter.range:type_name -> filters.UInt32Range
+	5, // 1: filters.DateTimeRangeFilter.start:type_name -> google.protobuf.Timestamp
+	5, // 2: filters.DateTimeRangeFilter.end:type_name -> google.protobuf.Timestamp
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_filters_proto_init() }
@@ -434,7 +406,7 @@ func file_filters_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_filters_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UInt32RangeFilter); i {
+			switch v := v.(*UInt32Range); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -446,7 +418,7 @@ func file_filters_proto_init() {
 			}
 		}
 		file_filters_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UInt64RangeFilter); i {
+			switch v := v.(*UInt32Filter); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -458,7 +430,7 @@ func file_filters_proto_init() {
 			}
 		}
 		file_filters_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*BigIntRangeFilter); i {
+			switch v := v.(*UInt64RangeFilter); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -470,7 +442,19 @@ func file_filters_proto_init() {
 			}
 		}
 		file_filters_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DateFilter); i {
+			switch v := v.(*BigIntRangeFilter); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_filters_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DateTimeRangeFilter); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -482,30 +466,21 @@ func file_filters_proto_init() {
 			}
 		}
 	}
-	file_filters_proto_msgTypes[0].OneofWrappers = []interface{}{
-		(*UInt32RangeFilter_Equals)(nil),
-		(*UInt32RangeFilter_Min)(nil),
-		(*UInt32RangeFilter_Max)(nil),
-	}
+	file_filters_proto_msgTypes[0].OneofWrappers = []interface{}{}
 	file_filters_proto_msgTypes[1].OneofWrappers = []interface{}{
-		(*UInt64RangeFilter_Min)(nil),
-		(*UInt64RangeFilter_Max)(nil),
+		(*UInt32Filter_Equals)(nil),
+		(*UInt32Filter_Range)(nil),
 	}
-	file_filters_proto_msgTypes[2].OneofWrappers = []interface{}{
-		(*BigIntRangeFilter_Min)(nil),
-		(*BigIntRangeFilter_Max)(nil),
-	}
-	file_filters_proto_msgTypes[3].OneofWrappers = []interface{}{
-		(*DateFilter_Start)(nil),
-		(*DateFilter_End)(nil),
-	}
+	file_filters_proto_msgTypes[2].OneofWrappers = []interface{}{}
+	file_filters_proto_msgTypes[3].OneofWrappers = []interface{}{}
+	file_filters_proto_msgTypes[4].OneofWrappers = []interface{}{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_filters_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

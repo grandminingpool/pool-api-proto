@@ -22,7 +22,7 @@ message PayoutsFilters {
     optional string miner = 1;
     optional string tx_hash = 2;
     optional filters.UInt64RangeFilter amount = 3;
-    optional filters.DateFilter paid_at = 4;
+    optional filters.DateTimeRangeFilter paid_at = 4;
 }
 
 message PayoutsSorts {
@@ -77,8 +77,8 @@ message MinedBlocksFilters {
     optional filters.BigIntRangeFilter miner_hashrate = 2;
     optional string block_hash = 3;
     optional filters.UInt64RangeFilter share_difficulty = 4;
-    optional filters.UInt32RangeFilter round_miners_count = 5;
-    optional filters.DateFilter mined_at = 6;
+    optional filters.UInt32Filter round_miners_count = 5;
+    optional filters.DateTimeRangeFilter mined_at = 6;
 }
 
 message GetBlocksRequest {
@@ -118,7 +118,7 @@ message MinedSoloBlocksFilters {
     optional filters.UInt64RangeFilter reward = 4;
     optional string tx_hash = 5;
     optional filters.UInt64RangeFilter share_difficulty = 6;
-    optional filters.DateFilter mined_at = 7;
+    optional filters.DateTimeRangeFilter mined_at = 7;
 }
 
 message GetSoloBlocksRequest {
@@ -156,7 +156,6 @@ message MinedSoloBlocksMap {
 }
 
 service PoolPayoutsService {
-    rpc GetMinerBalance(pool_miners.MinerAddressRequest) returns (MinerBalance);
     rpc GetMinersBalancesFromList(pool_miners.MinerAddressesRequest) returns (MinersBalancesMap);
     
     rpc GetPayouts(GetPayoutsRequest) returns (PayoutsList);
