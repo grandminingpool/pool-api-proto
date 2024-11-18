@@ -47,19 +47,20 @@ message PoolSlaves {
     repeated PoolSlave slaves = 1;
 }
 
+message GetPoolStatsRequest {
+    bool solo = 1;
+}
+
 message PoolStats {
     uint32 miners_count = 1;
-    optional uint32 solo_miners_count = 2;
+    uint32 workers_count = 2;
     bytes hashrate = 3;
     bytes avg_hashrate = 4;
-    optional bytes solo_hashrate = 5;
-    optional bytes solo_avg_hashrate = 6;
-    uint64 share_difficulty = 7;
-    optional uint64 solo_share_difficulty = 8;
+    uint64 share_difficulty = 5;
 }
 
 service PoolService {
     rpc GetPoolInfo(google.protobuf.Empty) returns (PoolInfo);
     rpc GetPoolSlaves(google.protobuf.Empty) returns (PoolSlaves);
-    rpc GetPoolStats(google.protobuf.Empty) returns (PoolStats);
+    rpc GetPoolStats(GetPoolStatsRequest) returns (PoolStats);
 }

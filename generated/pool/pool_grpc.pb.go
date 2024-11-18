@@ -25,7 +25,7 @@ const _ = grpc.SupportPackageIsVersion7
 type PoolServiceClient interface {
 	GetPoolInfo(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PoolInfo, error)
 	GetPoolSlaves(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PoolSlaves, error)
-	GetPoolStats(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PoolStats, error)
+	GetPoolStats(ctx context.Context, in *GetPoolStatsRequest, opts ...grpc.CallOption) (*PoolStats, error)
 }
 
 type poolServiceClient struct {
@@ -54,7 +54,7 @@ func (c *poolServiceClient) GetPoolSlaves(ctx context.Context, in *emptypb.Empty
 	return out, nil
 }
 
-func (c *poolServiceClient) GetPoolStats(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PoolStats, error) {
+func (c *poolServiceClient) GetPoolStats(ctx context.Context, in *GetPoolStatsRequest, opts ...grpc.CallOption) (*PoolStats, error) {
 	out := new(PoolStats)
 	err := c.cc.Invoke(ctx, "/pool.PoolService/GetPoolStats", in, out, opts...)
 	if err != nil {
@@ -69,7 +69,7 @@ func (c *poolServiceClient) GetPoolStats(ctx context.Context, in *emptypb.Empty,
 type PoolServiceServer interface {
 	GetPoolInfo(context.Context, *emptypb.Empty) (*PoolInfo, error)
 	GetPoolSlaves(context.Context, *emptypb.Empty) (*PoolSlaves, error)
-	GetPoolStats(context.Context, *emptypb.Empty) (*PoolStats, error)
+	GetPoolStats(context.Context, *GetPoolStatsRequest) (*PoolStats, error)
 	mustEmbedUnimplementedPoolServiceServer()
 }
 
@@ -83,7 +83,7 @@ func (UnimplementedPoolServiceServer) GetPoolInfo(context.Context, *emptypb.Empt
 func (UnimplementedPoolServiceServer) GetPoolSlaves(context.Context, *emptypb.Empty) (*PoolSlaves, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPoolSlaves not implemented")
 }
-func (UnimplementedPoolServiceServer) GetPoolStats(context.Context, *emptypb.Empty) (*PoolStats, error) {
+func (UnimplementedPoolServiceServer) GetPoolStats(context.Context, *GetPoolStatsRequest) (*PoolStats, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPoolStats not implemented")
 }
 func (UnimplementedPoolServiceServer) mustEmbedUnimplementedPoolServiceServer() {}
@@ -136,7 +136,7 @@ func _PoolService_GetPoolSlaves_Handler(srv interface{}, ctx context.Context, de
 }
 
 func _PoolService_GetPoolStats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(emptypb.Empty)
+	in := new(GetPoolStatsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -148,7 +148,7 @@ func _PoolService_GetPoolStats_Handler(srv interface{}, ctx context.Context, dec
 		FullMethod: "/pool.PoolService/GetPoolStats",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PoolServiceServer).GetPoolStats(ctx, req.(*emptypb.Empty))
+		return srv.(PoolServiceServer).GetPoolStats(ctx, req.(*GetPoolStatsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
