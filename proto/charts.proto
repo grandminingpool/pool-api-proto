@@ -64,6 +64,15 @@ message GetMinerChartRequest {
     ChartPeriod period = 3;
 }
 
+message MinerProfitabilityPoint {
+    uint64 balance = 1;
+    google.protobuf.Timestamp date = 2;
+}
+
+message MinerProfitabilitiesPoints {
+    repeated MinerProfitabilityPoint points = 1;
+}
+
 message MinerHashratesPoint {
     bytes hashrate = 1;
     google.protobuf.Timestamp date = 2;
@@ -96,6 +105,7 @@ service ChartsService {
     rpc GetPoolDifficulties(GetPoolDifficultiesRequest) returns (PoolDifficultiesPoints);
     rpc GetRounds(GetRoundsRequest) returns (RoundsPoints);
     
+    rpc GetMinerProfitability(GetMinerChartRequest) returns (MinerProfitabilitiesPoints);
     rpc GetMinerHashrates(GetMinerChartRequest) returns (MinerHashratesPoints);
     rpc GetMinerWorkerHashrates(GetMinerWorkerChartRequest) returns (MinerHashratesPoints);
     

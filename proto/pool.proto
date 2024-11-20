@@ -28,7 +28,6 @@ message PoolSlave {
     string host = 2;
     uint32 tcp_port = 3;
     uint32 ssl_port = 4;
-    optional uint32 solo_port = 5;
     google.protobuf.Timestamp connected_at = 6;
 }
 
@@ -43,11 +42,17 @@ message PoolInfo {
     repeated string agents = 8;
 }
 
+message NetworkInfo {
+    string top_block_hash = 1;
+    uint64 block_reward = 2;
+    bytes difficulty = 3;
+}
+
 message PoolSlaves {
     repeated PoolSlave slaves = 1;
 }
 
-message GetPoolStatsRequest {
+message GetPoolAssetRequest {
     bool solo = 1;
 }
 
@@ -56,11 +61,13 @@ message PoolStats {
     uint32 workers_count = 2;
     bytes hashrate = 3;
     bytes avg_hashrate = 4;
-    uint64 share_difficulty = 5;
+    uint64 share_difficulty = 6;
 }
 
 service PoolService {
     rpc GetPoolInfo(google.protobuf.Empty) returns (PoolInfo);
-    rpc GetPoolSlaves(google.protobuf.Empty) returns (PoolSlaves);
-    rpc GetPoolStats(GetPoolStatsRequest) returns (PoolStats);
+    rpc GetNetworkInfo(google.protobuf.Empty) returns (NetworkInfo);
+    
+    rpc GetPoolSlaves(GetPoolAssetRequest) returns (PoolSlaves);
+    rpc GetPoolStats(GetPoolAssetRequest) returns (PoolStats);
 }

@@ -24,8 +24,9 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PoolServiceClient interface {
 	GetPoolInfo(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PoolInfo, error)
-	GetPoolSlaves(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PoolSlaves, error)
-	GetPoolStats(ctx context.Context, in *GetPoolStatsRequest, opts ...grpc.CallOption) (*PoolStats, error)
+	GetNetworkInfo(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*NetworkInfo, error)
+	GetPoolSlaves(ctx context.Context, in *GetPoolAssetRequest, opts ...grpc.CallOption) (*PoolSlaves, error)
+	GetPoolStats(ctx context.Context, in *GetPoolAssetRequest, opts ...grpc.CallOption) (*PoolStats, error)
 }
 
 type poolServiceClient struct {
@@ -45,7 +46,16 @@ func (c *poolServiceClient) GetPoolInfo(ctx context.Context, in *emptypb.Empty, 
 	return out, nil
 }
 
-func (c *poolServiceClient) GetPoolSlaves(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PoolSlaves, error) {
+func (c *poolServiceClient) GetNetworkInfo(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*NetworkInfo, error) {
+	out := new(NetworkInfo)
+	err := c.cc.Invoke(ctx, "/pool.PoolService/GetNetworkInfo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *poolServiceClient) GetPoolSlaves(ctx context.Context, in *GetPoolAssetRequest, opts ...grpc.CallOption) (*PoolSlaves, error) {
 	out := new(PoolSlaves)
 	err := c.cc.Invoke(ctx, "/pool.PoolService/GetPoolSlaves", in, out, opts...)
 	if err != nil {
@@ -54,7 +64,7 @@ func (c *poolServiceClient) GetPoolSlaves(ctx context.Context, in *emptypb.Empty
 	return out, nil
 }
 
-func (c *poolServiceClient) GetPoolStats(ctx context.Context, in *GetPoolStatsRequest, opts ...grpc.CallOption) (*PoolStats, error) {
+func (c *poolServiceClient) GetPoolStats(ctx context.Context, in *GetPoolAssetRequest, opts ...grpc.CallOption) (*PoolStats, error) {
 	out := new(PoolStats)
 	err := c.cc.Invoke(ctx, "/pool.PoolService/GetPoolStats", in, out, opts...)
 	if err != nil {
@@ -68,8 +78,9 @@ func (c *poolServiceClient) GetPoolStats(ctx context.Context, in *GetPoolStatsRe
 // for forward compatibility
 type PoolServiceServer interface {
 	GetPoolInfo(context.Context, *emptypb.Empty) (*PoolInfo, error)
-	GetPoolSlaves(context.Context, *emptypb.Empty) (*PoolSlaves, error)
-	GetPoolStats(context.Context, *GetPoolStatsRequest) (*PoolStats, error)
+	GetNetworkInfo(context.Context, *emptypb.Empty) (*NetworkInfo, error)
+	GetPoolSlaves(context.Context, *GetPoolAssetRequest) (*PoolSlaves, error)
+	GetPoolStats(context.Context, *GetPoolAssetRequest) (*PoolStats, error)
 	mustEmbedUnimplementedPoolServiceServer()
 }
 
@@ -80,10 +91,13 @@ type UnimplementedPoolServiceServer struct {
 func (UnimplementedPoolServiceServer) GetPoolInfo(context.Context, *emptypb.Empty) (*PoolInfo, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPoolInfo not implemented")
 }
-func (UnimplementedPoolServiceServer) GetPoolSlaves(context.Context, *emptypb.Empty) (*PoolSlaves, error) {
+func (UnimplementedPoolServiceServer) GetNetworkInfo(context.Context, *emptypb.Empty) (*NetworkInfo, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetNetworkInfo not implemented")
+}
+func (UnimplementedPoolServiceServer) GetPoolSlaves(context.Context, *GetPoolAssetRequest) (*PoolSlaves, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPoolSlaves not implemented")
 }
-func (UnimplementedPoolServiceServer) GetPoolStats(context.Context, *GetPoolStatsRequest) (*PoolStats, error) {
+func (UnimplementedPoolServiceServer) GetPoolStats(context.Context, *GetPoolAssetRequest) (*PoolStats, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPoolStats not implemented")
 }
 func (UnimplementedPoolServiceServer) mustEmbedUnimplementedPoolServiceServer() {}
@@ -117,8 +131,26 @@ func _PoolService_GetPoolInfo_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PoolService_GetPoolSlaves_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PoolService_GetNetworkInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PoolServiceServer).GetNetworkInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pool.PoolService/GetNetworkInfo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PoolServiceServer).GetNetworkInfo(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PoolService_GetPoolSlaves_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPoolAssetRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -130,13 +162,13 @@ func _PoolService_GetPoolSlaves_Handler(srv interface{}, ctx context.Context, de
 		FullMethod: "/pool.PoolService/GetPoolSlaves",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PoolServiceServer).GetPoolSlaves(ctx, req.(*emptypb.Empty))
+		return srv.(PoolServiceServer).GetPoolSlaves(ctx, req.(*GetPoolAssetRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _PoolService_GetPoolStats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetPoolStatsRequest)
+	in := new(GetPoolAssetRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -148,7 +180,7 @@ func _PoolService_GetPoolStats_Handler(srv interface{}, ctx context.Context, dec
 		FullMethod: "/pool.PoolService/GetPoolStats",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PoolServiceServer).GetPoolStats(ctx, req.(*GetPoolStatsRequest))
+		return srv.(PoolServiceServer).GetPoolStats(ctx, req.(*GetPoolAssetRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -163,6 +195,10 @@ var PoolService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetPoolInfo",
 			Handler:    _PoolService_GetPoolInfo_Handler,
+		},
+		{
+			MethodName: "GetNetworkInfo",
+			Handler:    _PoolService_GetNetworkInfo_Handler,
 		},
 		{
 			MethodName: "GetPoolSlaves",
