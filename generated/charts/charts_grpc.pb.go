@@ -25,7 +25,7 @@ type ChartsServiceClient interface {
 	GetPoolStats(ctx context.Context, in *GetPoolStatsRequest, opts ...grpc.CallOption) (*PoolStatsPoints, error)
 	GetPoolDifficulties(ctx context.Context, in *GetPoolDifficultiesRequest, opts ...grpc.CallOption) (*PoolDifficultiesPoints, error)
 	GetRounds(ctx context.Context, in *GetRoundsRequest, opts ...grpc.CallOption) (*RoundsPoints, error)
-	GetMinerProfitability(ctx context.Context, in *GetMinerChartRequest, opts ...grpc.CallOption) (*MinerProfitabilitiesPoints, error)
+	GetMinerProfitabilities(ctx context.Context, in *GetMinerChartRequest, opts ...grpc.CallOption) (*MinerProfitabilitiesPoints, error)
 	GetMinerHashrates(ctx context.Context, in *GetMinerChartRequest, opts ...grpc.CallOption) (*MinerHashratesPoints, error)
 	GetMinerWorkerHashrates(ctx context.Context, in *GetMinerWorkerChartRequest, opts ...grpc.CallOption) (*MinerHashratesPoints, error)
 	GetMinerShares(ctx context.Context, in *GetMinerChartRequest, opts ...grpc.CallOption) (*MinerSharesPoints, error)
@@ -67,9 +67,9 @@ func (c *chartsServiceClient) GetRounds(ctx context.Context, in *GetRoundsReques
 	return out, nil
 }
 
-func (c *chartsServiceClient) GetMinerProfitability(ctx context.Context, in *GetMinerChartRequest, opts ...grpc.CallOption) (*MinerProfitabilitiesPoints, error) {
+func (c *chartsServiceClient) GetMinerProfitabilities(ctx context.Context, in *GetMinerChartRequest, opts ...grpc.CallOption) (*MinerProfitabilitiesPoints, error) {
 	out := new(MinerProfitabilitiesPoints)
-	err := c.cc.Invoke(ctx, "/charts.ChartsService/GetMinerProfitability", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/charts.ChartsService/GetMinerProfitabilities", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -119,7 +119,7 @@ type ChartsServiceServer interface {
 	GetPoolStats(context.Context, *GetPoolStatsRequest) (*PoolStatsPoints, error)
 	GetPoolDifficulties(context.Context, *GetPoolDifficultiesRequest) (*PoolDifficultiesPoints, error)
 	GetRounds(context.Context, *GetRoundsRequest) (*RoundsPoints, error)
-	GetMinerProfitability(context.Context, *GetMinerChartRequest) (*MinerProfitabilitiesPoints, error)
+	GetMinerProfitabilities(context.Context, *GetMinerChartRequest) (*MinerProfitabilitiesPoints, error)
 	GetMinerHashrates(context.Context, *GetMinerChartRequest) (*MinerHashratesPoints, error)
 	GetMinerWorkerHashrates(context.Context, *GetMinerWorkerChartRequest) (*MinerHashratesPoints, error)
 	GetMinerShares(context.Context, *GetMinerChartRequest) (*MinerSharesPoints, error)
@@ -140,8 +140,8 @@ func (UnimplementedChartsServiceServer) GetPoolDifficulties(context.Context, *Ge
 func (UnimplementedChartsServiceServer) GetRounds(context.Context, *GetRoundsRequest) (*RoundsPoints, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetRounds not implemented")
 }
-func (UnimplementedChartsServiceServer) GetMinerProfitability(context.Context, *GetMinerChartRequest) (*MinerProfitabilitiesPoints, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetMinerProfitability not implemented")
+func (UnimplementedChartsServiceServer) GetMinerProfitabilities(context.Context, *GetMinerChartRequest) (*MinerProfitabilitiesPoints, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMinerProfitabilities not implemented")
 }
 func (UnimplementedChartsServiceServer) GetMinerHashrates(context.Context, *GetMinerChartRequest) (*MinerHashratesPoints, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMinerHashrates not implemented")
@@ -222,20 +222,20 @@ func _ChartsService_GetRounds_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ChartsService_GetMinerProfitability_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ChartsService_GetMinerProfitabilities_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetMinerChartRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ChartsServiceServer).GetMinerProfitability(ctx, in)
+		return srv.(ChartsServiceServer).GetMinerProfitabilities(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/charts.ChartsService/GetMinerProfitability",
+		FullMethod: "/charts.ChartsService/GetMinerProfitabilities",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ChartsServiceServer).GetMinerProfitability(ctx, req.(*GetMinerChartRequest))
+		return srv.(ChartsServiceServer).GetMinerProfitabilities(ctx, req.(*GetMinerChartRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -332,8 +332,8 @@ var ChartsService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ChartsService_GetRounds_Handler,
 		},
 		{
-			MethodName: "GetMinerProfitability",
-			Handler:    _ChartsService_GetMinerProfitability_Handler,
+			MethodName: "GetMinerProfitabilities",
+			Handler:    _ChartsService_GetMinerProfitabilities_Handler,
 		},
 		{
 			MethodName: "GetMinerHashrates",

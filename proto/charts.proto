@@ -105,7 +105,7 @@ service ChartsService {
     rpc GetPoolDifficulties(GetPoolDifficultiesRequest) returns (PoolDifficultiesPoints);
     rpc GetRounds(GetRoundsRequest) returns (RoundsPoints);
     
-    rpc GetMinerProfitability(GetMinerChartRequest) returns (MinerProfitabilitiesPoints);
+    rpc GetMinerProfitabilities(GetMinerChartRequest) returns (MinerProfitabilitiesPoints);
     rpc GetMinerHashrates(GetMinerChartRequest) returns (MinerHashratesPoints);
     rpc GetMinerWorkerHashrates(GetMinerWorkerChartRequest) returns (MinerHashratesPoints);
     
