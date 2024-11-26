@@ -61,7 +61,6 @@ message PoolStats {
     uint32 workers_count = 2;
     bytes hashrate = 3;
     bytes avg_hashrate = 4;
-    uint64 share_difficulty = 6;
 }
 
 service PoolService {

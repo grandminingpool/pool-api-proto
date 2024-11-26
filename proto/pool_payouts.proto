@@ -67,18 +67,16 @@ message MinedBlocksSorts {
     optional sorts.SortOrder miner = 1;
     optional sorts.SortOrder miner_hashrate = 2;
     optional sorts.SortOrder block_hash = 3;
-    optional sorts.SortOrder share_difficulty = 4;
-    optional sorts.SortOrder round_miners_count = 5;
-    optional sorts.SortOrder mined_at = 6;
+    optional sorts.SortOrder round_miners_count = 4;
+    optional sorts.SortOrder mined_at = 5;
 }
 
 message MinedBlocksFilters {
     optional string miner = 1;
     optional filters.BigIntRangeFilter miner_hashrate = 2;
     optional string block_hash = 3;
-    optional filters.UInt64RangeFilter share_difficulty = 4;
-    optional filters.UInt32Filter round_miners_count = 5;
-    optional filters.DateTimeRangeFilter mined_at = 6;
+    optional filters.UInt32Filter round_miners_count = 4;
+    optional filters.DateTimeRangeFilter mined_at = 5;
 }
 
 message GetBlocksRequest {
@@ -91,9 +89,8 @@ message MinedBlock {
     string miner = 1;
     bytes miner_hashrate = 2;
     string block_hash = 3;
-    uint64 share_difficulty = 4;
-    uint32 round_miners_count = 5;
-    google.protobuf.Timestamp mined_at = 6;
+    uint32 round_miners_count = 4;
+    google.protobuf.Timestamp mined_at = 5;
 }
 
 message MinedBlocksList {
@@ -107,8 +104,7 @@ message MinedSoloBlocksSorts {
     optional sorts.SortOrder block_hash = 3;
     optional sorts.SortOrder reward = 4;
     optional sorts.SortOrder tx_hash = 5;
-    optional sorts.SortOrder share_difficulty = 6;
-    optional sorts.SortOrder mined_at = 7;
+    optional sorts.SortOrder mined_at = 6;
 }
 
 message MinedSoloBlocksFilters {
@@ -117,8 +113,7 @@ message MinedSoloBlocksFilters {
     optional string block_hash = 3;
     optional filters.UInt64RangeFilter reward = 4;
     optional string tx_hash = 5;
-    optional filters.UInt64RangeFilter share_difficulty = 6;
-    optional filters.DateTimeRangeFilter mined_at = 7;
+    optional filters.DateTimeRangeFilter mined_at = 6;
 }
 
 message GetSoloBlocksRequest {
@@ -138,8 +133,7 @@ message MinedSoloBlock {
     string block_hash = 3;
     uint64 reward = 4;
     string tx_hash = 5;
-    uint64 share_difficulty = 6;
-    google.protobuf.Timestamp mined_at = 7;
+    google.protobuf.Timestamp mined_at = 6;
 }
 
 message MinedSoloBlocks {
