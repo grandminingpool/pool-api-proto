@@ -23,7 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ChartsServiceClient interface {
 	GetPoolStats(ctx context.Context, in *GetPoolStatsRequest, opts ...grpc.CallOption) (*PoolStatsPoints, error)
-	GetNetworkDifficulties(ctx context.Context, in *GetPoolDifficultiesRequest, opts ...grpc.CallOption) (*NetworkDifficultiesPoints, error)
+	GetNetworkDifficulties(ctx context.Context, in *GetNetworkDifficultiesRequest, opts ...grpc.CallOption) (*NetworkDifficultiesPoints, error)
 	GetRounds(ctx context.Context, in *GetRoundsRequest, opts ...grpc.CallOption) (*RoundsPoints, error)
 	GetMinerProfitabilities(ctx context.Context, in *GetMinerChartRequest, opts ...grpc.CallOption) (*MinerProfitabilitiesPoints, error)
 	GetMinerHashrates(ctx context.Context, in *GetMinerChartRequest, opts ...grpc.CallOption) (*MinerHashratesPoints, error)
@@ -49,7 +49,7 @@ func (c *chartsServiceClient) GetPoolStats(ctx context.Context, in *GetPoolStats
 	return out, nil
 }
 
-func (c *chartsServiceClient) GetNetworkDifficulties(ctx context.Context, in *GetPoolDifficultiesRequest, opts ...grpc.CallOption) (*NetworkDifficultiesPoints, error) {
+func (c *chartsServiceClient) GetNetworkDifficulties(ctx context.Context, in *GetNetworkDifficultiesRequest, opts ...grpc.CallOption) (*NetworkDifficultiesPoints, error) {
 	out := new(NetworkDifficultiesPoints)
 	err := c.cc.Invoke(ctx, "/charts.ChartsService/GetNetworkDifficulties", in, out, opts...)
 	if err != nil {
@@ -117,7 +117,7 @@ func (c *chartsServiceClient) GetMinerWorkerShares(ctx context.Context, in *GetM
 // for forward compatibility
 type ChartsServiceServer interface {
 	GetPoolStats(context.Context, *GetPoolStatsRequest) (*PoolStatsPoints, error)
-	GetNetworkDifficulties(context.Context, *GetPoolDifficultiesRequest) (*NetworkDifficultiesPoints, error)
+	GetNetworkDifficulties(context.Context, *GetNetworkDifficultiesRequest) (*NetworkDifficultiesPoints, error)
 	GetRounds(context.Context, *GetRoundsRequest) (*RoundsPoints, error)
 	GetMinerProfitabilities(context.Context, *GetMinerChartRequest) (*MinerProfitabilitiesPoints, error)
 	GetMinerHashrates(context.Context, *GetMinerChartRequest) (*MinerHashratesPoints, error)
@@ -134,7 +134,7 @@ type UnimplementedChartsServiceServer struct {
 func (UnimplementedChartsServiceServer) GetPoolStats(context.Context, *GetPoolStatsRequest) (*PoolStatsPoints, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPoolStats not implemented")
 }
-func (UnimplementedChartsServiceServer) GetNetworkDifficulties(context.Context, *GetPoolDifficultiesRequest) (*NetworkDifficultiesPoints, error) {
+func (UnimplementedChartsServiceServer) GetNetworkDifficulties(context.Context, *GetNetworkDifficultiesRequest) (*NetworkDifficultiesPoints, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetNetworkDifficulties not implemented")
 }
 func (UnimplementedChartsServiceServer) GetRounds(context.Context, *GetRoundsRequest) (*RoundsPoints, error) {
@@ -187,7 +187,7 @@ func _ChartsService_GetPoolStats_Handler(srv interface{}, ctx context.Context, d
 }
 
 func _ChartsService_GetNetworkDifficulties_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetPoolDifficultiesRequest)
+	in := new(GetNetworkDifficultiesRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -199,7 +199,7 @@ func _ChartsService_GetNetworkDifficulties_Handler(srv interface{}, ctx context.
 		FullMethod: "/charts.ChartsService/GetNetworkDifficulties",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ChartsServiceServer).GetNetworkDifficulties(ctx, req.(*GetPoolDifficultiesRequest))
+		return srv.(ChartsServiceServer).GetNetworkDifficulties(ctx, req.(*GetNetworkDifficultiesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

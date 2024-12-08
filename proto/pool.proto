@@ -12,6 +12,11 @@ enum PayoutMode {
     PROP = 1;
 }
 
+enum AddressFormat {
+    Normal = 0;
+    Memo = 1;
+}
+
 message PayoutsInfo {
     uint32 interval = 1;
     uint64 min_payout = 2;
@@ -33,13 +38,14 @@ message PoolSlave {
 
 message PoolInfo {
     string blockchain = 1;
-    string host = 2;
-    repeated string algos = 3;
-    PayoutMode payout_mode = 4;
-    bool solo = 5;
-    PoolFee fee = 6;
-    PayoutsInfo payouts_info = 7;
-    repeated string agents = 8;
+    AddressFormat address_format = 2;
+    string host = 3;
+    repeated string algos = 4;
+    PayoutMode payout_mode = 5;
+    bool solo = 6;
+    PoolFee fee = 7;
+    PayoutsInfo payouts_info = 8;
+    repeated string agents = 9;
 }
 
 message NetworkInfo {
