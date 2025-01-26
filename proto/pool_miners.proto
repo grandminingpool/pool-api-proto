@@ -81,6 +81,7 @@ service PoolMinersService {
     rpc ValidateAddress(MinerAddressRequest) returns (ValidateAddressResponse);
     
     rpc GetMiners(GetMinersRequest) returns (MinersList);
+    rpc GetMiner(MinerAddressRequest) returns (Miner);
 
     rpc GetMinersWorkersFromList(MinerAddressesRequest) returns (MinersWorkersMap);
 }

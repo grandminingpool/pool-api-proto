@@ -24,6 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 type PoolMinersServiceClient interface {
 	ValidateAddress(ctx context.Context, in *MinerAddressRequest, opts ...grpc.CallOption) (*ValidateAddressResponse, error)
 	GetMiners(ctx context.Context, in *GetMinersRequest, opts ...grpc.CallOption) (*MinersList, error)
+	GetMiner(ctx context.Context, in *MinerAddressRequest, opts ...grpc.CallOption) (*Miner, error)
 	GetMinersWorkersFromList(ctx context.Context, in *MinerAddressesRequest, opts ...grpc.CallOption) (*MinersWorkersMap, error)
 }
 
@@ -53,6 +54,15 @@ func (c *poolMinersServiceClient) GetMiners(ctx context.Context, in *GetMinersRe
 	return out, nil
 }
 
+func (c *poolMinersServiceClient) GetMiner(ctx context.Context, in *MinerAddressRequest, opts ...grpc.CallOption) (*Miner, error) {
+	out := new(Miner)
+	err := c.cc.Invoke(ctx, "/pool_miners.PoolMinersService/GetMiner", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *poolMinersServiceClient) GetMinersWorkersFromList(ctx context.Context, in *MinerAddressesRequest, opts ...grpc.CallOption) (*MinersWorkersMap, error) {
 	out := new(MinersWorkersMap)
 	err := c.cc.Invoke(ctx, "/pool_miners.PoolMinersService/GetMinersWorkersFromList", in, out, opts...)
@@ -68,6 +78,7 @@ func (c *poolMinersServiceClient) GetMinersWorkersFromList(ctx context.Context, 
 type PoolMinersServiceServer interface {
 	ValidateAddress(context.Context, *MinerAddressRequest) (*ValidateAddressResponse, error)
 	GetMiners(context.Context, *GetMinersRequest) (*MinersList, error)
+	GetMiner(context.Context, *MinerAddressRequest) (*Miner, error)
 	GetMinersWorkersFromList(context.Context, *MinerAddressesRequest) (*MinersWorkersMap, error)
 	mustEmbedUnimplementedPoolMinersServiceServer()
 }
@@ -81,6 +92,9 @@ func (UnimplementedPoolMinersServiceServer) ValidateAddress(context.Context, *Mi
 }
 func (UnimplementedPoolMinersServiceServer) GetMiners(context.Context, *GetMinersRequest) (*MinersList, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMiners not implemented")
+}
+func (UnimplementedPoolMinersServiceServer) GetMiner(context.Context, *MinerAddressRequest) (*Miner, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMiner not implemented")
 }
 func (UnimplementedPoolMinersServiceServer) GetMinersWorkersFromList(context.Context, *MinerAddressesRequest) (*MinersWorkersMap, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMinersWorkersFromList not implemented")
@@ -134,6 +148,24 @@ func _PoolMinersService_GetMiners_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PoolMinersService_GetMiner_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MinerAddressRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PoolMinersServiceServer).GetMiner(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pool_miners.PoolMinersService/GetMiner",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PoolMinersServiceServer).GetMiner(ctx, req.(*MinerAddressRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _PoolMinersService_GetMinersWorkersFromList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(MinerAddressesRequest)
 	if err := dec(in); err != nil {
@@ -166,6 +198,10 @@ var PoolMinersService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetMiners",
 			Handler:    _PoolMinersService_GetMiners_Handler,
+		},
+		{
+			MethodName: "GetMiner",
+			Handler:    _PoolMinersService_GetMiner_Handler,
 		},
 		{
 			MethodName: "GetMinersWorkersFromList",
