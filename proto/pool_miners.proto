@@ -77,11 +77,42 @@ message MinersWorkersMap {
     map<string, MinerWorkers> workers = 1;
 }
 
+message MinerWorkersSorts {
+    optional sorts.SortOrder worker = 1;
+    optional sorts.SortOrder region = 2;
+    optional sorts.SortOrder agent = 3;
+    optional sorts.SortOrder solo = 4;
+    optional sorts.SortOrder hashrate = 5;
+    optional sorts.SortOrder connected_at = 6;
+}
+
+message MinerWorkersFilters {
+    optional string worker = 1;
+    optional string region = 2;
+    optional string agent = 3;
+    optional bool solo = 4;
+    optional filters.BigIntRangeFilter hashrate = 5;
+    optional filters.DateTimeRangeFilter connected_at = 6;
+}
+
+message GetMinerWorkersRequest {
+    string address = 1;
+    MinerWorkersSorts sorts = 2;
+    MinerWorkersFilters filters = 3;
+    pagination.PaginationRequest pagination = 4;
+}
+
+message MinerWorkersList {
+    MinerWorkers workers = 1;
+    pagination.PaginationResponse pagination = 2;
+}
+
 service PoolMinersService {
     rpc ValidateAddress(MinerAddressRequest) returns (ValidateAddressResponse);
     
     rpc GetMiners(GetMinersRequest) returns (MinersList);
     rpc GetMiner(MinerAddressRequest) returns (Miner);
 
+    rpc GetMinerWorkers(GetMinerWorkersRequest) returns (MinerWorkersList);
     rpc GetMinersWorkersFromList(MinerAddressesRequest) returns (MinersWorkersMap);
 }

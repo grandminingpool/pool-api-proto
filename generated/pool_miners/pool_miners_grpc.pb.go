@@ -25,6 +25,7 @@ type PoolMinersServiceClient interface {
 	ValidateAddress(ctx context.Context, in *MinerAddressRequest, opts ...grpc.CallOption) (*ValidateAddressResponse, error)
 	GetMiners(ctx context.Context, in *GetMinersRequest, opts ...grpc.CallOption) (*MinersList, error)
 	GetMiner(ctx context.Context, in *MinerAddressRequest, opts ...grpc.CallOption) (*Miner, error)
+	GetMinerWorkers(ctx context.Context, in *GetMinerWorkersRequest, opts ...grpc.CallOption) (*MinerWorkersList, error)
 	GetMinersWorkersFromList(ctx context.Context, in *MinerAddressesRequest, opts ...grpc.CallOption) (*MinersWorkersMap, error)
 }
 
@@ -63,6 +64,15 @@ func (c *poolMinersServiceClient) GetMiner(ctx context.Context, in *MinerAddress
 	return out, nil
 }
 
+func (c *poolMinersServiceClient) GetMinerWorkers(ctx context.Context, in *GetMinerWorkersRequest, opts ...grpc.CallOption) (*MinerWorkersList, error) {
+	out := new(MinerWorkersList)
+	err := c.cc.Invoke(ctx, "/pool_miners.PoolMinersService/GetMinerWorkers", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *poolMinersServiceClient) GetMinersWorkersFromList(ctx context.Context, in *MinerAddressesRequest, opts ...grpc.CallOption) (*MinersWorkersMap, error) {
 	out := new(MinersWorkersMap)
 	err := c.cc.Invoke(ctx, "/pool_miners.PoolMinersService/GetMinersWorkersFromList", in, out, opts...)
@@ -79,6 +89,7 @@ type PoolMinersServiceServer interface {
 	ValidateAddress(context.Context, *MinerAddressRequest) (*ValidateAddressResponse, error)
 	GetMiners(context.Context, *GetMinersRequest) (*MinersList, error)
 	GetMiner(context.Context, *MinerAddressRequest) (*Miner, error)
+	GetMinerWorkers(context.Context, *GetMinerWorkersRequest) (*MinerWorkersList, error)
 	GetMinersWorkersFromList(context.Context, *MinerAddressesRequest) (*MinersWorkersMap, error)
 	mustEmbedUnimplementedPoolMinersServiceServer()
 }
@@ -95,6 +106,9 @@ func (UnimplementedPoolMinersServiceServer) GetMiners(context.Context, *GetMiner
 }
 func (UnimplementedPoolMinersServiceServer) GetMiner(context.Context, *MinerAddressRequest) (*Miner, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMiner not implemented")
+}
+func (UnimplementedPoolMinersServiceServer) GetMinerWorkers(context.Context, *GetMinerWorkersRequest) (*MinerWorkersList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMinerWorkers not implemented")
 }
 func (UnimplementedPoolMinersServiceServer) GetMinersWorkersFromList(context.Context, *MinerAddressesRequest) (*MinersWorkersMap, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMinersWorkersFromList not implemented")
@@ -166,6 +180,24 @@ func _PoolMinersService_GetMiner_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PoolMinersService_GetMinerWorkers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetMinerWorkersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PoolMinersServiceServer).GetMinerWorkers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pool_miners.PoolMinersService/GetMinerWorkers",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PoolMinersServiceServer).GetMinerWorkers(ctx, req.(*GetMinerWorkersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _PoolMinersService_GetMinersWorkersFromList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(MinerAddressesRequest)
 	if err := dec(in); err != nil {
@@ -202,6 +234,10 @@ var PoolMinersService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetMiner",
 			Handler:    _PoolMinersService_GetMiner_Handler,
+		},
+		{
+			MethodName: "GetMinerWorkers",
+			Handler:    _PoolMinersService_GetMinerWorkers_Handler,
 		},
 		{
 			MethodName: "GetMinersWorkersFromList",
