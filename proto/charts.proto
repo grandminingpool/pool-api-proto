@@ -31,7 +31,6 @@ message PoolStatsPoints {
 
 message GetNetworkDifficultiesRequest {
     ChartPeriod period = 1;
-    bool solo = 2;
 }
 
 message NetworkDifficultiesPoint {
@@ -60,7 +59,7 @@ message RoundsPoints {
 
 message GetMinerChartRequest {
     string miner = 1;
-    bool solo = 2;
+    optional bool solo = 2;
     ChartPeriod period = 3;
 }
 
