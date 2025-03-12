@@ -35,7 +35,8 @@ message GetNetworkDifficultiesRequest {
 
 message NetworkDifficultiesPoint {
     bytes difficulty = 1;
-    google.protobuf.Timestamp date = 2;
+    bytes avg_difficulty = 2;
+    google.protobuf.Timestamp date = 3;
 }
 
 message NetworkDifficultiesPoints {
@@ -74,7 +75,8 @@ message MinerProfitabilitiesPoints {
 
 message MinerHashratesPoint {
     bytes hashrate = 1;
-    google.protobuf.Timestamp date = 2;
+    bytes avg_hashrate = 2;
+    google.protobuf.Timestamp date = 3;
 }
 
 message MinerHashratesPoints {

@@ -49,7 +49,7 @@ message PoolInfo {
 }
 
 message NetworkInfo {
-    string top_block_hash = 1;
+    uint64 height = 1;
     uint64 block_reward = 2;
     bytes difficulty = 3;
 }

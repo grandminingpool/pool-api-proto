@@ -23,6 +23,13 @@ message UInt64RangeFilter {
   optional uint64 max = 2;
 }
 
+message UInt64Filter {
+  oneof operators {
+    uint32 equals = 1;
+    UInt64RangeFilter range = 2;
+  }
+}
+
 message BigIntRangeFilter {
   optional bytes min = 1;
   optional bytes max = 2;
