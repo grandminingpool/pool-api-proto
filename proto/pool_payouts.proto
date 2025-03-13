@@ -104,7 +104,7 @@ message MinedBlocksList {
 message MinedSoloBlocksSorts {
     optional sorts.SortOrder miner = 1;
     optional sorts.SortOrder miner_hashrate = 2;
-    optional filters.UInt64Filter block_height = 3;
+    optional sorts.SortOrder block_height = 3;
     optional sorts.SortOrder block_hash = 4;
     optional sorts.SortOrder reward = 5;
     optional sorts.SortOrder tx_hash = 6;
