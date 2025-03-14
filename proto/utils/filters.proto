@@ -25,7 +25,7 @@ message UInt64RangeFilter {
 
 message UInt64Filter {
   oneof operators {
-    uint32 equals = 1;
+    uint64 equals = 1;
     UInt64RangeFilter range = 2;
   }
 }
