@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package pool_payouts;
 
-option go_package = "github.com/grandminingpool/pool-api-proto/generated/pool_payouts;poolPayoutsProto";
+option go_package = "github.com/grandminingpool/pool-api-proto/generated/pool_payouts;pool_payouts";
 
 import "google/protobuf/timestamp.proto";
 import "pool_miners.proto";
