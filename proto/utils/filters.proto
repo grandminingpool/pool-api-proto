@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package filters;
 
-option go_package = "github.com/grandminingpool/pool-api-proto/generated/utils/filters;filtersProto";
+option go_package = "github.com/grandminingpool/pool-api-proto/generated/utils/filters;filters";
 
 import "google/protobuf/timestamp.proto";
 

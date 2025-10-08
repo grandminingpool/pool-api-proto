@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package charts;
 
-option go_package = "github.com/grandminingpool/pool-api-proto/generated/charts;chartsProto";
+option go_package = "github.com/grandminingpool/pool-api-proto/generated/charts;charts";
 
 import "google/protobuf/timestamp.proto";
 

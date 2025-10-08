@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package pagination;
 
-option go_package = "github.com/grandminingpool/pool-api-proto/generated/utils/pagination;paginationProto";
+option go_package = "github.com/grandminingpool/pool-api-proto/generated/utils/pagination;pagination";
 
 message PaginationRequest {
   uint32 offset = 1;

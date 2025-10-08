@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package sorts;
 
-option go_package = "github.com/grandminingpool/pool-api-proto/generated/utils/sorts;sortsProto";
+option go_package = "github.com/grandminingpool/pool-api-proto/generated/utils/sorts;sorts";
 
 enum SortDirection {
   ASC = 0;
