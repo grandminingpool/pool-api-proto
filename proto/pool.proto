@@ -17,6 +17,11 @@ enum AddressFormat {
     Memo = 1;
 }
 
+enum HardwareType {
+    ASIC = 0;
+    GPU = 1;
+}
+
 message PayoutsInfo {
     uint32 interval = 1;
     uint64 min_payout = 2;
@@ -33,7 +38,7 @@ message PoolSlave {
     string host = 2;
     uint32 tcp_port = 3;
     uint32 ssl_port = 4;
-    google.protobuf.Timestamp connected_at = 6;
+    google.protobuf.Timestamp connected_at = 5;
 }
 
 message PoolInfo {
@@ -45,7 +50,8 @@ message PoolInfo {
     bool solo = 6;
     PoolFee fee = 7;
     PayoutsInfo payouts_info = 8;
-    repeated string agents = 9;
+    HardwareType hardware_type = 9;
+    repeated string agents = 10;
 }
 
 message NetworkInfo {
