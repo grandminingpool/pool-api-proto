@@ -19,7 +19,7 @@ message GetPoolStatsRequest {
 }
 
 message PoolStatsPoint {
-    bytes hashrate = 1;
+    bytes max_hashrate = 1;
     bytes avg_hashrate = 2;
     uint32 miners_count = 3;
     google.protobuf.Timestamp date = 4;
@@ -74,7 +74,7 @@ message MinerProfitabilitiesPoints {
 }
 
 message MinerHashratesPoint {
-    bytes hashrate = 1;
+    bytes max_hashrate = 1;
     bytes avg_hashrate = 2;
     google.protobuf.Timestamp date = 3;
 }
