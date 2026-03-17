@@ -74,6 +74,8 @@ message PoolStats {
     bytes hashrate = 3;
     bytes avg_hashrate = 4;
     uint32 blocks_count_24h = 5;
+    optional uint64 last_found_block_height = 6;
+    optional google.protobuf.Timestamp last_found_block_at = 7;
 }
 
 service PoolService {
