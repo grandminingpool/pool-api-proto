@@ -109,6 +109,7 @@ message MinedSoloBlocksSorts {
     optional sorts.SortOrder reward = 5;
     optional sorts.SortOrder tx_hash = 6;
     optional sorts.SortOrder paid_at = 7;
+    optional sorts.SortOrder mined_at = 8;
 }
 
 message MinedSoloBlocksFilters {
@@ -119,6 +120,7 @@ message MinedSoloBlocksFilters {
     optional filters.UInt64RangeFilter reward = 5;
     optional string tx_hash = 6;
     optional filters.DateTimeRangeFilter paid_at = 7;
+    optional filters.DateTimeRangeFilter mined_at = 8;
 }
 
 message GetSoloBlocksRequest {
@@ -140,6 +142,7 @@ message MinedSoloBlock {
     uint64 reward = 5;
     string tx_hash = 6;
     google.protobuf.Timestamp paid_at = 7;
+    google.protobuf.Timestamp mined_at = 8;
 }
 
 message MinedSoloBlocks {
