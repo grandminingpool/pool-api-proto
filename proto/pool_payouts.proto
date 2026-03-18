@@ -150,7 +150,7 @@ message MinedSoloBlocks {
 }
 
 message MinedSoloBlocksList {
-    MinedSoloBlocks blocks = 1;
+    repeated MinedSoloBlock blocks = 1;
     pagination.PaginationResponse pagination = 2;
 }
 
