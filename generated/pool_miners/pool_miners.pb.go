@@ -7,9 +7,9 @@
 package pool_miners
 
 import (
-	filters "github.com/grandminingpool/pool-api-proto/generated/utils/filters"
-	pagination "github.com/grandminingpool/pool-api-proto/generated/utils/pagination"
-	sorts "github.com/grandminingpool/pool-api-proto/generated/utils/sorts"
+	filters "github.com/grandminingpool/pool-api-proto/v2/generated/utils/filters"
+	pagination "github.com/grandminingpool/pool-api-proto/v2/generated/utils/pagination"
+	sorts "github.com/grandminingpool/pool-api-proto/v2/generated/utils/sorts"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -173,8 +173,8 @@ type MinersFilters struct {
 	Address         *string                      `protobuf:"bytes,1,opt,name=address,proto3,oneof" json:"address,omitempty"`
 	Hashrate        *filters.BigIntRangeFilter   `protobuf:"bytes,2,opt,name=hashrate,proto3,oneof" json:"hashrate,omitempty"`
 	WorkersCount    *filters.UInt32Filter        `protobuf:"bytes,3,opt,name=workers_count,json=workersCount,proto3,oneof" json:"workers_count,omitempty"`
-	BlocksCount     *filters.UInt32Filter        `protobuf:"bytes,4,opt,name=blocks_count,json=blocksCount,proto3,oneof" json:"blocks_count,omitempty"`
-	SoloBlocksCount *filters.UInt32Filter        `protobuf:"bytes,5,opt,name=solo_blocks_count,json=soloBlocksCount,proto3,oneof" json:"solo_blocks_count,omitempty"`
+	BlocksCount     *filters.UInt32Filter        `protobuf:"bytes,4,opt,name=blocks_count,json=blocksCount,proto3,oneof" json:"blocks_count,omitempty"`               // acts on the total over all blockchains
+	SoloBlocksCount *filters.UInt32Filter        `protobuf:"bytes,5,opt,name=solo_blocks_count,json=soloBlocksCount,proto3,oneof" json:"solo_blocks_count,omitempty"` // acts on the total over all blockchains
 	JoinedAt        *filters.DateTimeRangeFilter `protobuf:"bytes,6,opt,name=joined_at,json=joinedAt,proto3,oneof" json:"joined_at,omitempty"`
 }
 
@@ -260,8 +260,8 @@ type MinersSorts struct {
 	Address         *sorts.SortOrder `protobuf:"bytes,1,opt,name=address,proto3,oneof" json:"address,omitempty"`
 	Hashrate        *sorts.SortOrder `protobuf:"bytes,2,opt,name=hashrate,proto3,oneof" json:"hashrate,omitempty"`
 	WorkersCount    *sorts.SortOrder `protobuf:"bytes,3,opt,name=workers_count,json=workersCount,proto3,oneof" json:"workers_count,omitempty"`
-	BlocksCount     *sorts.SortOrder `protobuf:"bytes,4,opt,name=blocks_count,json=blocksCount,proto3,oneof" json:"blocks_count,omitempty"`
-	SoloBlocksCount *sorts.SortOrder `protobuf:"bytes,5,opt,name=solo_blocks_count,json=soloBlocksCount,proto3,oneof" json:"solo_blocks_count,omitempty"`
+	BlocksCount     *sorts.SortOrder `protobuf:"bytes,4,opt,name=blocks_count,json=blocksCount,proto3,oneof" json:"blocks_count,omitempty"`               // acts on the total over all blockchains
+	SoloBlocksCount *sorts.SortOrder `protobuf:"bytes,5,opt,name=solo_blocks_count,json=soloBlocksCount,proto3,oneof" json:"solo_blocks_count,omitempty"` // acts on the total over all blockchains
 	JoinedAt        *sorts.SortOrder `protobuf:"bytes,6,opt,name=joined_at,json=joinedAt,proto3,oneof" json:"joined_at,omitempty"`
 }
 
@@ -407,9 +407,13 @@ type Miner struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Address         string                 `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
-	Hashrate        []byte                 `protobuf:"bytes,2,opt,name=hashrate,proto3" json:"hashrate,omitempty"`
-	WorkersCount    uint32                 `protobuf:"varint,3,opt,name=workers_count,json=workersCount,proto3" json:"workers_count,omitempty"`
+	Address      string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
+	Hashrate     []byte `protobuf:"bytes,2,opt,name=hashrate,proto3" json:"hashrate,omitempty"`
+	WorkersCount uint32 `protobuf:"varint,3,opt,name=workers_count,json=workersCount,proto3" json:"workers_count,omitempty"`
+	// blocks_count and solo_blocks_count are totals over all blockchains: the primary blockchain's
+	// blocks plus every aux blockchain's. Aux blocks found by the miner's shares count whether or not
+	// the miner was rewarded for them, and a share that solves blocks on several blockchains counts
+	// once per block.
 	BlocksCount     uint32                 `protobuf:"varint,4,opt,name=blocks_count,json=blocksCount,proto3" json:"blocks_count,omitempty"`
 	SoloBlocksCount uint32                 `protobuf:"varint,5,opt,name=solo_blocks_count,json=soloBlocksCount,proto3" json:"solo_blocks_count,omitempty"`
 	JoinedAt        *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=joined_at,json=joinedAt,proto3" json:"joined_at,omitempty"`
@@ -1240,12 +1244,12 @@ var file_pool_miners_proto_rawDesc = []byte{
 	0x6e, 0x65, 0x72, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75,
 	0x65, 0x73, 0x74, 0x1a, 0x1d, 0x2e, 0x70, 0x6f, 0x6f, 0x6c, 0x5f, 0x6d, 0x69, 0x6e, 0x65, 0x72,
 	0x73, 0x2e, 0x4d, 0x69, 0x6e, 0x65, 0x72, 0x73, 0x57, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x73, 0x4d,
-	0x61, 0x70, 0x42, 0x4d, 0x5a, 0x4b, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d,
+	0x61, 0x70, 0x42, 0x50, 0x5a, 0x4e, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d,
 	0x2f, 0x67, 0x72, 0x61, 0x6e, 0x64, 0x6d, 0x69, 0x6e, 0x69, 0x6e, 0x67, 0x70, 0x6f, 0x6f, 0x6c,
 	0x2f, 0x70, 0x6f, 0x6f, 0x6c, 0x2d, 0x61, 0x70, 0x69, 0x2d, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f,
-	0x67, 0x65, 0x6e, 0x65, 0x72, 0x61, 0x74, 0x65, 0x64, 0x2f, 0x70, 0x6f, 0x6f, 0x6c, 0x5f, 0x6d,
-	0x69, 0x6e, 0x65, 0x72, 0x73, 0x3b, 0x70, 0x6f, 0x6f, 0x6c, 0x5f, 0x6d, 0x69, 0x6e, 0x65, 0x72,
-	0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x76, 0x32, 0x2f, 0x67, 0x65, 0x6e, 0x65, 0x72, 0x61, 0x74, 0x65, 0x64, 0x2f, 0x70, 0x6f, 0x6f,
+	0x6c, 0x5f, 0x6d, 0x69, 0x6e, 0x65, 0x72, 0x73, 0x3b, 0x70, 0x6f, 0x6f, 0x6c, 0x5f, 0x6d, 0x69,
+	0x6e, 0x65, 0x72, 0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (

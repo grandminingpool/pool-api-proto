@@ -8,7 +8,7 @@ package pool_payouts
 
 import (
 	context "context"
-	pool_miners "github.com/grandminingpool/pool-api-proto/generated/pool_miners"
+	pool_miners "github.com/grandminingpool/pool-api-proto/v2/generated/pool_miners"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"

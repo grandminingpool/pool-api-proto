@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package charts;
 
-option go_package = "github.com/grandminingpool/pool-api-proto/generated/charts;charts";
+option go_package = "github.com/grandminingpool/pool-api-proto/v2/generated/charts;charts";
 
 import "google/protobuf/timestamp.proto";
 
@@ -31,6 +31,9 @@ message PoolStatsPoints {
 
 message GetNetworkDifficultiesRequest {
     ChartPeriod period = 1;
+    // blockchain selects the dataset: an aux blockchain's name from PoolInfo.aux_payout_terms; unset
+    // or empty is the primary blockchain.
+    optional string blockchain = 2;
 }
 
 message NetworkDifficultiesPoint {
@@ -45,6 +48,9 @@ message NetworkDifficultiesPoints {
 
 message GetRoundsRequest {
     ChartPeriod period = 1;
+    // blockchain selects the dataset: an aux blockchain's name from PoolInfo.aux_payout_terms; unset
+    // or empty is the primary blockchain.
+    optional string blockchain = 2;
 }
 
 message RoundsPoint {
@@ -65,8 +71,11 @@ message GetMinerChartRequest {
 }
 
 message MinerProfitabilityPoint {
-    uint64 balance = 1;
-    google.protobuf.Timestamp date = 2;
+    uint64 balance = 1;                     // the primary blockchain's
+    // aux_balances maps every aux blockchain's name from PoolInfo.aux_payout_terms to the miner's
+    // balance there at this point in its smallest unit, zero included; empty without merged mining.
+    map<string, uint64> aux_balances = 2;
+    google.protobuf.Timestamp date = 3;
 }
 
 message MinerProfitabilitiesPoints {

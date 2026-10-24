@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package pool_payouts;
 
-option go_package = "github.com/grandminingpool/pool-api-proto/generated/pool_payouts;pool_payouts";
+option go_package = "github.com/grandminingpool/pool-api-proto/v2/generated/pool_payouts;pool_payouts";
 
 import "google/protobuf/timestamp.proto";
 import "pool_miners.proto";
@@ -11,7 +11,10 @@ import "utils/sorts.proto";
 import "utils/filters.proto";
 
 message MinerBalance {
-    uint64 balance = 1;
+    uint64 balance = 1;                     // the primary blockchain's
+    // aux_balances maps every aux blockchain's name from PoolInfo.aux_payout_terms to the miner's
+    // balance there in its smallest unit, zero included; empty without merged mining.
+    map<string, uint64> aux_balances = 2;
 }
 
 message MinersBalancesMap {
@@ -35,12 +38,18 @@ message PayoutsSorts {
 message GetPayoutsRequest {
     PayoutsSorts sorts = 1;
     PayoutsFilters filters = 2;
-    pagination.PaginationRequest pagination = 3;
+    // blockchain selects the dataset: an aux blockchain's name from PoolInfo.aux_payout_terms; unset
+    // or empty is the primary blockchain.
+    optional string blockchain = 3;
+    pagination.PaginationRequest pagination = 4;
 }
 
 message GetPayoutsFromListRequest {
     repeated string miners = 1;
     PayoutsFilters filters = 2;
+    // blockchain selects the dataset: an aux blockchain's name from PoolInfo.aux_payout_terms; unset
+    // or empty is the primary blockchain.
+    optional string blockchain = 3;
 }
 
 message Payout {
@@ -48,6 +57,7 @@ message Payout {
     string tx_hash = 2;
     uint64 amount = 3;
     google.protobuf.Timestamp paid_at = 4;
+    optional string address = 5;   // the address paid when it differs from miner, e.g. an aux blockchain address
 }
 
 message Payouts {
@@ -84,7 +94,10 @@ message MinedBlocksFilters {
 message GetBlocksRequest {
     MinedBlocksSorts sorts = 1;
     MinedBlocksFilters filters = 2;
-    pagination.PaginationRequest pagination = 3;
+    // blockchain selects the dataset: an aux blockchain's name from PoolInfo.aux_payout_terms; unset
+    // or empty is the primary blockchain.
+    optional string blockchain = 3;
+    pagination.PaginationRequest pagination = 4;
 }
 
 message MinedBlock {
@@ -126,12 +139,18 @@ message MinedSoloBlocksFilters {
 message GetSoloBlocksRequest {
     MinedSoloBlocksSorts sorts = 1;
     MinedSoloBlocksFilters filters = 2;
-    pagination.PaginationRequest pagination = 3;
+    // blockchain selects the dataset: an aux blockchain's name from PoolInfo.aux_payout_terms; unset
+    // or empty is the primary blockchain.
+    optional string blockchain = 3;
+    pagination.PaginationRequest pagination = 4;
 }
 
 message GetSoloBlocksFromListRequest {
     repeated string miners = 1;
     MinedSoloBlocksFilters filters = 2;
+    // blockchain selects the dataset: an aux blockchain's name from PoolInfo.aux_payout_terms; unset
+    // or empty is the primary blockchain.
+    optional string blockchain = 3;
 }
 
 message MinedSoloBlock {

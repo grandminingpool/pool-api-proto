@@ -1,4 +1,4 @@
-module github.com/grandminingpool/pool-api-proto
+module github.com/grandminingpool/pool-api-proto/v2
 
 go 1.25.0
 
