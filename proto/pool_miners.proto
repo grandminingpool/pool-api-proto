@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package pool_miners;
 
-option go_package = "github.com/grandminingpool/pool-api-proto/generated/pool_miners;pool_miners";
+option go_package = "github.com/grandminingpool/pool-api-proto/v2/generated/pool_miners;pool_miners";
 
 import "google/protobuf/timestamp.proto";
 import "utils/pagination.proto";
@@ -25,8 +25,8 @@ message MinersFilters {
     optional string address = 1;
     optional filters.BigIntRangeFilter hashrate = 2;
     optional filters.UInt32Filter workers_count = 3;
-    optional filters.UInt32Filter blocks_count = 4;
-    optional filters.UInt32Filter solo_blocks_count = 5;
+    optional filters.UInt32Filter blocks_count = 4;         // acts on the total over all blockchains
+    optional filters.UInt32Filter solo_blocks_count = 5;    // acts on the total over all blockchains
     optional filters.DateTimeRangeFilter joined_at = 6;
 }
 
@@ -34,8 +34,8 @@ message MinersSorts {
     optional sorts.SortOrder address = 1;
     optional sorts.SortOrder hashrate = 2;
     optional sorts.SortOrder workers_count = 3;
-    optional sorts.SortOrder blocks_count = 4;
-    optional sorts.SortOrder solo_blocks_count = 5;
+    optional sorts.SortOrder blocks_count = 4;              // acts on the total over all blockchains
+    optional sorts.SortOrder solo_blocks_count = 5;         // acts on the total over all blockchains
     optional sorts.SortOrder joined_at = 6;
 }
 
@@ -49,6 +49,10 @@ message Miner {
     string address = 1;
     bytes hashrate = 2;
     uint32 workers_count = 3;
+    // blocks_count and solo_blocks_count are totals over all blockchains: the primary blockchain's
+    // blocks plus every aux blockchain's. Aux blocks found by the miner's shares count whether or not
+    // the miner was rewarded for them, and a share that solves blocks on several blockchains counts
+    // once per block.
     uint32 blocks_count = 4;
     uint32 solo_blocks_count = 5;
     google.protobuf.Timestamp joined_at = 6;

@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package pool;
 
-option go_package = "github.com/grandminingpool/pool-api-proto/generated/pool;pool";
+option go_package = "github.com/grandminingpool/pool-api-proto/v2/generated/pool;pool";
 
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
@@ -41,17 +41,34 @@ message PoolSlave {
     google.protobuf.Timestamp connected_at = 5;
 }
 
+// PayoutTerms are the terms the pool pays miners on for one blockchain: the payout address format,
+// the fee and the payout settings.
+message PayoutTerms {
+    AddressFormat address_format = 1;
+    PoolFee fee = 2;
+    PayoutsInfo payouts_info = 3;     // amounts in the blockchain's smallest unit
+}
+
+// BlocksStats are one blockchain's found-block counters.
+message BlocksStats {
+    uint32 blocks_count_24h = 1;
+    optional uint64 last_found_block_height = 2;
+    optional google.protobuf.Timestamp last_found_block_at = 3;
+}
+
 message PoolInfo {
     string blockchain = 1;
-    AddressFormat address_format = 2;
     string host = 3;
     repeated string algos = 4;
     PayoutMode payout_mode = 5;
     bool solo = 6;
-    PoolFee fee = 7;
-    PayoutsInfo payouts_info = 8;
     HardwareType hardware_type = 9;
     repeated string agents = 10;
+    PayoutTerms payout_terms = 11;                     // payout terms of the primary blockchain
+    // aux_payout_terms maps each aux blockchain's name (e.g. "nacre") to its payout terms; empty
+    // without merged mining. Its keys are the aux blockchains the pool merge-mines, and the values
+    // that requests take in blockchain.
+    map<string, PayoutTerms> aux_payout_terms = 12;
 }
 
 message NetworkInfo {
@@ -73,9 +90,8 @@ message PoolStats {
     uint32 workers_count = 2;
     bytes hashrate = 3;
     bytes avg_hashrate = 4;
-    uint32 blocks_count_24h = 5;
-    optional uint64 last_found_block_height = 6;
-    optional google.protobuf.Timestamp last_found_block_at = 7;
+    BlocksStats blocks = 8;                            // found-block counters of the primary blockchain
+    map<string, BlocksStats> aux_blocks = 9;           // aux blockchain name -> its found-block counters
 }
 
 service PoolService {
